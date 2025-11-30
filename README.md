@@ -64,13 +64,6 @@ Category & Technologies
 
 ---
 
-# GitHub Stats
-<p align="center">
-  <img src="[https://github-readme-stats.vercel.app/api?username=marieyakubenko-wq&show_icons=true&theme=radical](https://github.com/marieyakubenko-wq/marieyakubenko-wq)" height="160" />
-</p>
-
----
-
 # Contact  
 - Email: marieyakubenko@gmail.com  
 - Portfolio website: https://animy-ua.netlify.app/  
