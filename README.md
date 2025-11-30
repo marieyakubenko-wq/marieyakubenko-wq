@@ -1,4 +1,4 @@
-<h1 align="center">Hi, I'm Mari 👋</h1>
+<h1 align="center">Hi, I'm Mari!</h1>
 
 <p align="center">
   <b>17 y/o Full-Stack Developer • UI/UX Designer • Future Software Engineer</b><br>
@@ -65,6 +65,7 @@ Category & Technologies
 ---
 
 # Contact  
-- Email: marieyakubenko@gmail.com  
-- Portfolio website: https://animy-ua.netlify.app/  
+- Email: marieyakubenko@gmail.com
+- Portfolio: https://www.behance.net/babyyoyakuben  
+- Website: https://animy-ua.netlify.app/  
 - GitHub: https://github.com/marieyakubenko-wq  
