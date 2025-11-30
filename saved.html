@@ -22,17 +22,17 @@
 
   --top-offset: 96px;
 
-  /* боковые видео */
+  /* Side vid */
   --side-w: 320px;
   --side-gap: 18px;
-  --side-opacity: .28; /* прозрачность боковых видео */
+  --side-opacity: .28; 
 }
 body.theme-dark{
   --bg:#000000; --text:#f5f7fb; --muted:#b7bbca; --card:#161923; --line:rgba(255,255,255,.08);
   --shadow:0 14px 36px rgba(0,0,0,.35); --accent:#a78bfa; --accent-2:#c4b5fd; --accent-3:#22d3ee; --danger:#f87171;
   --ring: rgba(167,139,253,.35); --surface: rgba(255,255,255,.08); --surface-strong: rgba(255,255,255,.14);
 
-  --side-opacity: .32; /* немного менее прозрачно в тёмной теме */
+  --side-opacity: .32; 
 }
 
 *{box-sizing:border-box}
@@ -40,7 +40,7 @@ html,body{height:100%;margin:0;font-family:"Inter",system-ui,-apple-system,Segoe
 img{max-width:100%;display:block}
 button{font-family:inherit}
 
-/* ===== Top Bar ===== */
+/*  Top Bar  */
 .top-bar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;gap:12px;background:var(--bg);border-bottom:0 !important;z-index:999;backdrop-filter:saturate(180%) blur(6px)}
 .left-controls,.right-controls{display:flex;align-items:center;gap:10px;}
 .icon-btn{background:transparent;border:0;padding:6px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s, background .12s, box-shadow .12s}
@@ -49,14 +49,14 @@ button{font-family:inherit}
 .icon-btn img{width:26px;height:26px;object-fit:contain}
 #langSelect{background:transparent;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:6px 10px;font-size:14px;transition:border .18s}
 
-/* ===== Avatar (top + mobile bottom) ===== */
+/*  Avatar (top + mobile bottom)  */
 .avatar-circle-glow{
   width:36px;height:36px;border-radius:999px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;
   box-shadow:0 0 0 2px rgba(167,139,253,.55), 0 0 12px 3px rgba(167,139,253,.25);
 }
 .avatar-circle-glow img{width:100%;height:100%;object-fit:cover;border-radius:999px;display:block}
 
-/* ===== Navbar ===== */
+/*  Navbar  */
 .navbar{position:sticky;top:46px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg);z-index:40;border-top:none !important;border-bottom:none !important}
 .brand a{display:flex;align-items:center;gap:10px;text-decoration:none}
 .nav{display:flex;gap:14px;flex-wrap:wrap;max-width:100%}
@@ -64,29 +64,28 @@ button{font-family:inherit}
 .nav-link:hover{color:var(--accent);background:rgba(99,102,241,.10)}
 .nav{overflow:hidden}
 
-/* ===== Desktop/Tablet Search ===== */
+/*  Desktop/Tablet Search  */
 .search-bar{position:fixed;top:64px;left:50%;transform:translateX(-50%);width:min(680px,92%);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);z-index:999;backdrop-filter:var(--glass-blur)}
 .hidden{display:none !important}
 .search-input{flex:1;border:none;background:transparent;color:var(--text);font-size:16px;padding:10px 8px}
 .search-ico-btn{background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .search-ico-btn img{width:22px;height:22px;opacity:.9}
 
-/* ===== Mobile search ===== */
+/*  Mobile search  */
 .mobile-search{position:sticky;top:0;z-index:998;padding:10px 14px 6px;background:linear-gradient(to bottom, var(--bg) 70%, transparent);display:none}
 .mobile-search .search-box{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--surface-strong);backdrop-filter:var(--glass-blur)}
 .mobile-search input{flex:1;border:none;background:transparent;color:var(--text);font-size:15px;padding:6px 4px}
 .mobile-search button{background:transparent;border:0;cursor:pointer}
 .mobile-search img{width:22px;height:22px;opacity:.9}
 
-/* ===== Header ===== */
+/*  Header  */
 .page-header{margin-top:var(--top-offset);text-align:center}
 .page-header h1{margin:0;font-size:clamp(20px,4.2vw,28px);font-weight:700;font-family:"Poiret One",cursive}
 .page-header p{margin:6px 0 0;color:var(--muted)}
 
-/* ===== Content container ===== */
+/* Content container  */
 .list-container{max-width:1600px;margin:20px auto;padding:0 16px}
 
-/* если боковые видео видны — добавим поля, чтобы сетка не наезжала */
 @media (min-width: 1401px){
   .page-header, .list-container{
     padding-left: calc(var(--side-w) + var(--side-gap) + 16px);
@@ -94,7 +93,7 @@ button{font-family:inherit}
   }
 }
 
-/* ===== Big poster grid tuned for 4K ===== */
+/*  Big poster grid tuned for 4K  */
 .big-grid{
   display:grid;gap:22px;margin-top:16px;margin-bottom:120px;justify-content:center;
   grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
@@ -122,7 +121,7 @@ button{font-family:inherit}
 .action-btn img{width:18px;height:18px;display:block}
 @media (max-width: 768px){ .desktop-actions{ display:none; } }
 
-/* ===== Side videos (desktop, long translucent) ===== */
+/*  Side videos (desktop, long translucent)  */
 .side-video{
   position:fixed; top:var(--top-offset); bottom:0;
   width:var(--side-w); border-radius:16px; overflow:hidden;
@@ -135,20 +134,18 @@ button{font-family:inherit}
 .side-video video{width:100%; height:100%; object-fit:cover; filter:saturate(105%) contrast(105%); display:block}
 
 @media (min-width:1800px){ :root{ --side-w: 380px; } }
-@media (min-width:2300px){ :root{ --side-w: 420px; } }   /* 4K приятнее выглядит */
-@media (max-width:1400px){ .side-video{ display:none; } } /* скрыть на ноут/планшет */
+@media (min-width:2300px){ :root{ --side-w: 420px; } }  
+@media (max-width:1400px){ .side-video{ display:none; } } 
 
-/* ===== Bottom bar (mobile) ===== */
+/*  Bottom bar (mobile)  */
 .mobile-bottom{position:fixed;left:0;right:0;bottom:0;padding:8px 14px 10px;z-index:999;display:none}
 .mobile-bottom .bar{display:flex;align-items:center;justify-content:space-around;border:1px solid var(--line);border-radius:16px;background:var(--surface-strong);backdrop-filter:var(--glass-blur);padding:10px}
 .mobile-bottom .bar button{background:transparent;border:0;cursor:pointer;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
 .mobile-bottom .bar img{width:22px;height:22px;border-radius:6px;object-fit:cover}
 
-/* на светлой теме — иконки «чёрные» */
 body.theme-light .mobile-bottom .bar img{ filter:none; }
-/* на тёмной теме пусть остаются белые (исходные файлы white) */
 
-/* ===== Responsive ===== */
+/* Responsive  */
 @media (max-width: 768px){
   .top-bar .left-controls,.top-bar .right-controls{ display:none; }
   .mobile-search{ display:block; }
@@ -181,7 +178,6 @@ html, body, .top-bar, .navbar, .mobile-search { background: var(--bg) !important
       <img id="savedIcon" src="img/bookmark_white.png" alt="saved">
     </button>
 
-    <!-- круглая аватарка с подсветкой -->
     <button id="topAvatarBtn" class="icon-btn" aria-label="Profile">
       <span class="avatar-circle-glow"><img id="topAvatarImg" src="img/user-profile.png" alt="avatar"></span>
     </button>
@@ -241,7 +237,6 @@ html, body, .top-bar, .navbar, .mobile-search { background: var(--bg) !important
     <button id="mbLang" title="Language"><img id="mbLangIcon" src="img/translation_white.png" alt="lang"></button>
     <button id="mbSaved" title="Saved"><img id="mbSavedIcon" src="img/bookmark_white.png" alt="saved"></button>
 
-    <!-- круглая аватарка и переход на профиль -->
     <button id="mbProfile" title="Profile" aria-label="Profile" style="background:transparent;border:0;padding:0;">
       <span class="avatar-circle-glow" style="width:36px;height:36px;">
         <img id="mbAvatarImg" src="img/user-profile.png" alt="avatar">
@@ -251,7 +246,7 @@ html, body, .top-bar, .navbar, .mobile-search { background: var(--bg) !important
 </div>
 
 <script type="module">
-/* ===== Firebase (как в profile.html) ===== */
+/*  Firebase  */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -269,21 +264,21 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ===== Translations ===== */
+/*  Translations  */
 const t = {
   en:{home:"Home",movies:"Movies",anime:"Anime",trends:"Trends",savedTitle:"Saved",savedNone:"No saved anime yet.",savedCount:"{n} saved",phSearch:"Search anime..."},
   ua:{home:"Головна",movies:"Фільми",anime:"Аніме",trends:"Тренди",savedTitle:"Збережені",savedNone:"Список порожній.",savedCount:"Збережено: {n}",phSearch:"Пошук аніме..."},
   de:{home:"Startseite",movies:"Filme",anime:"Anime",trends:"Trends",savedTitle:"Gespeichert",savedNone:"Noch keine Einträge.",savedCount:"{n} gespeichert",phSearch:"Anime suchen..."}
 };
 
-/* ===== Icons ===== */
+/*  Icons  */
 const ICONS = {
   dark: { search:'img/search-icon-white.png', saved:'img/bookmark_white.png', translation:'img/translation_white.png' },
   light:{ search:'img/search-icon.png',        saved:'img/bookmark.png',        translation:'img/translation.png' }
 };
 const logoWhite='img/animy_white.png', logoDark='img/animy.png';
 
-/* ===== Catalog ===== */
+/*  Catalog  */
 const SITE_CATALOG={
   "Attack on Titan":{file:"new1",link:"attack-on-titan.html"},
   "Bleach":{file:"anime8",link:"bleach.html"},
@@ -304,7 +299,7 @@ const SITE_CATALOG={
 };
 const fileToName = Object.fromEntries(Object.entries(SITE_CATALOG).map(([n,v])=>[v.file,n]));
 
-/* ===== DOM ===== */
+/*  DOM  */
 const logoImg=document.getElementById("logoImg");
 const themeToggleBtn=document.getElementById("themeToggle");
 const themeIconEl=document.getElementById("themeIcon");
@@ -336,12 +331,12 @@ const mbLangIcon=document.getElementById('mbLangIcon');
 const mbSaved=document.getElementById('mbSaved');
 const mbSavedIcon=document.getElementById('mbSavedIcon');
 
-/* ===== Data ===== */
+/*  Data  */
 let profileData=JSON.parse(localStorage.getItem("profileData")||"{}");
 let animeData=JSON.parse(localStorage.getItem("animeData")||"{}");
 if(!animeData.watching) animeData={watching:[],liked:[],disliked:[]};
 
-/* ===== Lang ===== */
+/*  Lang  */
 function applyLang(lang){
   if(!t[lang]) lang='en';
   document.documentElement.lang=lang;
@@ -357,10 +352,10 @@ function applyLang(lang){
     if(t[lang][key]) el.placeholder=t[lang][key];
   });
 
-  renderList(); // обновить счетчик «n saved»
+  renderList(); 
 }
 
-/* ===== Theme ===== */
+/*  Theme  */
 function currentTheme(){ return document.body.classList.contains('theme-dark') ? 'dark' : 'light'; }
 function applyTheme(theme){
   const body=document.body;
@@ -379,10 +374,10 @@ function applyTheme(theme){
   mbLangIcon.src    = isDark ? ICONS.dark.translation : ICONS.light.translation;
   logoImg.src       = isDark ? logoWhite : logoDark;
 
-  updateAvatarImgs(); // чтобы аватарка не «ломалась»
+  updateAvatarImgs(); 
 }
 
-/* ===== Avatar helpers ===== */
+/*  Avatar helpers  */
 function isDefaultAvatar(src){
   if (!src) return true;
   try { const path = (new URL(src, location.href)).pathname; return /\/img\/user-profile(\_white)?\.png$/i.test(path); }
@@ -391,16 +386,15 @@ function isDefaultAvatar(src){
 function updateAvatarImgs(){
   const photo = (profileData && profileData.avatar && !isDefaultAvatar(profileData.avatar))
                ? profileData.avatar
-               : "img/user-profile.png"; // одинаковая в обеих темах, круг + подсветка делает остальное
+               : "img/user-profile.png"; 
   topAvatarImg.src = photo;
   mbAvatarImg.src  = photo;
 }
 
-/* ===== Saved lists (compat mode) ===== */
+/*  Saved lists (compat mode)  */
 function getSavedFromLegacy(){
   const raw = localStorage.getItem("savedAnime");
   const arr = raw ? JSON.parse(raw) : [];
-  // ожидается [{file,link,titles}, ...]
   return Array.isArray(arr) ? arr : [];
 }
 function setSavedToLegacy(arrByFile){
@@ -409,23 +403,21 @@ function setSavedToLegacy(arrByFile){
 function getSavedFromAnimeData(){
   const names = (Array.isArray(animeData.saved) ? animeData.saved
                  : Array.isArray(animeData.liked) ? animeData.liked : []);
-  // нормализуем в объекты из каталога
   return names.map(name=>{
     const info = SITE_CATALOG[name];
     return info ? {file:info.file, link:info.link, titles:null, name} : null;
   }).filter(Boolean);
 }
 function writeBackAnimeDataFromFiles(files){
-  // конвертируем файлы в имена (если возможно), сохраняем и в saved и в liked (для совместимости)
   const names = files.map(f=>fileToName[f]).filter(Boolean);
   animeData.saved = names.slice();
   animeData.liked = names.slice();
   localStorage.setItem("animeData", JSON.stringify(animeData));
 }
 
-/* ===== Unified list builder ===== */
+/*  Unified list builder  */
 function buildUnifiedSaved(){
-  const legacy = getSavedFromLegacy();           // объекты с file/link/titles
+  const legacy = getSavedFromLegacy();           
   const modern = getSavedFromAnimeData();        // объекты с file/link,name|null
 
   // если есть legacy — он приоритетный (источник «раньше»), иначе modern
@@ -441,7 +433,7 @@ function buildUnifiedSaved(){
   return unique;
 }
 
-/* ===== Remove item in both stores ===== */
+/*  Remove item in both stores  */
 function removeSavedByFile(file){
   // legacy
   const legacy = getSavedFromLegacy();
@@ -459,7 +451,7 @@ function removeSavedByFile(file){
   }
 }
 
-/* ===== Render ===== */
+/*  Render  */
 function renderList(){
   bigGridEl.innerHTML = "";
   const lang = document.body.dataset.lang || "en";
@@ -484,16 +476,16 @@ function renderList(){
       </a>
     `;
 
-    // swipe (mobile) — удалить
+    // swipe (mobile)
     attachSwipe(card, it.file);
-    // desktop — удалить
+    // desktop 
     addDesktopDelete(card, it.file);
 
     bigGridEl.appendChild(card);
   }
 }
 
-/* ===== Swipe (mobile) ===== */
+/*  Swipe (mobile)  */
 function attachSwipe(card, file){
   const content=card.querySelector('a');
   const layer=document.createElement('div');
@@ -546,7 +538,7 @@ function attachSwipe(card, file){
   card.addEventListener('pointerleave', (e)=> dragging && onEnd(e));
 }
 
-/* ===== Desktop delete ===== */
+/*  Desktop delete  */
 function addDesktopDelete(card, file){
   const actions = document.createElement('div');
   actions.className='desktop-actions';
@@ -559,7 +551,7 @@ function addDesktopDelete(card, file){
   });
 }
 
-/* ===== Search ===== */
+/*  Search  */
 function findLinkByQuery(q){
   const query=q.toLowerCase().trim();
   for(const name in SITE_CATALOG){
@@ -593,7 +585,7 @@ mSearchInput?.addEventListener('keydown', (e)=>{
   }
 });
 
-/* ===== Theme/Lang init ===== */
+/*  Theme/Lang init  */
 const savedTheme=localStorage.getItem("theme")||"dark";
 applyTheme(savedTheme);
 const savedLang=localStorage.getItem("lang")||"en";
@@ -606,10 +598,9 @@ themeToggleBtn?.addEventListener("click",()=>{
 });
 langSelect?.addEventListener("change",(e)=> applyLang(e.target.value));
 
-/* ===== Avatar wiring ===== */
+/*  Avatar wiring  */
 function syncProfileDataFromCloud(user){
-  // при входе — обновим профиль из облака, если есть
-  return (async ()=>{
+    return (async ()=>{
     if(!user) return;
     const ref=doc(db,"users",user.uid);
     const snap=await getDoc(ref);
@@ -624,7 +615,7 @@ updateAvatarImgs();
 topAvatarBtn.addEventListener('click', ()=> location.href='profile.html');
 mbProfile.addEventListener('click', ()=> location.href='profile.html');
 
-/* ===== Mobile bottom quick actions ===== */
+/*  Mobile bottom quick actions  */
 mbTheme?.addEventListener('click', ()=>{
   const cur=document.body.classList.contains("theme-dark")?"dark":"light";
   applyTheme(cur==="dark"?"light":"dark");
@@ -638,7 +629,7 @@ mbLang?.addEventListener('click', ()=>{
 });
 mbSaved?.addEventListener('click', ()=> location.href='saved.html');
 
-/* ===== Parallax side videos + random pick ===== */
+/*  Parallax side videos + random pick  */
 const sideLeft = document.getElementById('leftVid');
 const sideRight = document.getElementById('rightVid');
 const poolNames = [
@@ -668,7 +659,7 @@ function onScrollParallax(){
 window.addEventListener('scroll', onScrollParallax, {passive:true});
 onScrollParallax();
 
-/* ===== Auth ===== */
+/*  Auth  */
 onAuthStateChanged(auth, async (user)=>{
   await syncProfileDataFromCloud(user);
   updateAvatarImgs();

@@ -67,12 +67,12 @@ html,body{
 img{max-width:100%;display:block}
 button{font-family:inherit}
 
-/* ===== Top Bar (desktop & tablet) ===== */
+/*  Top Bar (desktop & tablet)  */
 .top-bar{
   position:fixed;top:0;left:0;right:0;
   display:flex;justify-content:space-between;align-items:center;
   padding:10px 18px;gap:12px;background:var(--bg);
-  border-bottom:0 !important; /* убрали линию */
+  border-bottom:0 !important; 
   z-index:999;
   backdrop-filter:saturate(180%) blur(6px);
 }
@@ -91,11 +91,11 @@ button{font-family:inherit}
   transition:border .18s;
 }
 
-/* ===== Navbar ===== */
+/*  Navbar  */
 .navbar{
   position:sticky;top:46px;display:flex;align-items:center;justify-content:space-between;
   padding:12px 20px;background:var(--bg);z-index:40;
-  border-top:none !important;border-bottom:none !important; /* убрали тонкие полоски */
+  border-top:none !important;border-bottom:none !important; 
 }
 .brand a{display:flex;align-items:center;gap:10px;text-decoration:none}
 .nav{display:flex;gap:14px;flex-wrap:wrap;max-width:100%}
@@ -106,7 +106,7 @@ button{font-family:inherit}
 .nav-link:hover{color:var(--accent);background:rgba(99,102,241,.10)}
 .nav{overflow:hidden}
 
-/* ===== Desktop/Tablet Search bar (toggle) ===== */
+/*  Desktop/Tablet Search bar (toggle)  */
 .search-bar{
   position:fixed;top:64px;left:50%;transform:translateX(-50%);
   width:min(680px,92%);background:var(--surface);
@@ -119,7 +119,7 @@ button{font-family:inherit}
 .search-ico-btn{background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .search-ico-btn img{width:22px;height:22px;opacity:.9}
 
-/* ===== Mobile top search (always visible on mobile) ===== */
+/*  Mobile top search (always visible on mobile)  */
 .mobile-search{
   position:sticky;top:0;z-index:998;padding:10px 14px 6px;
   background:linear-gradient(to bottom, var(--bg) 70%, transparent);
@@ -136,7 +136,7 @@ button{font-family:inherit}
 .mobile-search button{background:transparent;border:0;cursor:pointer}
 .mobile-search img{width:22px;height:22px;opacity:.9}
 
-/* ===== Profile header ===== */
+/*  Profile header  */
 .profile-header{
   margin-top:110px;position:relative;height:220px;
   background:linear-gradient(135deg,#6c5ce7,#a78bfa);
@@ -159,7 +159,7 @@ button{font-family:inherit}
   color:var(--text);cursor:pointer;font-weight:600
 }
 
-/* ===== Tabs & Lists ===== */
+/*  Tabs & Lists  */
 .tabs{display:flex;justify-content:center;gap:10px;margin-top:22px;flex-wrap:wrap}
 .tab-btn{
   padding:8px 14px;border-radius:12px;border:1px solid var(--line);
@@ -172,7 +172,7 @@ button{font-family:inherit}
 .list-container{max-width:1040px;margin:20px auto;padding:0 16px}
 .actions-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:var(--muted);font-weight:500}
 
-/* ===== Cards Grid ===== */
+/*  Cards Grid  */
 .big-grid{
   display:grid;gap:12px;margin-top:16px;margin-bottom:70px;justify-content:center;
   grid-template-columns:repeat(6, minmax(0, 1fr));
@@ -191,7 +191,7 @@ button{font-family:inherit}
 .big-card a{text-decoration:none;color:inherit;display:block;position:relative;border-radius:12px;overflow:hidden}
 .big-card img{width:100%;height:200px;object-fit:cover;border-radius:12px;display:block;box-shadow:0 12px 30px rgba(0,0,0,.35)}
 
-/* ===== Swipe UI layer (mobile) ===== */
+/*  Swipe UI layer (mobile)  */
 .swipe-layer{
   position:absolute;inset:0;pointer-events:none;display:flex;justify-content:space-between;align-items:center;
   padding:0 10px;opacity:0;transition:opacity .12s;
@@ -208,7 +208,7 @@ button{font-family:inherit}
 .big-card.swiping.glow-right{ background:linear-gradient(90deg, rgba(34,211,238,.25), transparent 60%); }
 .big-card.swiping.glow-left { background:linear-gradient(90deg, transparent 40%, rgba(239,68,68,.25)); }
 
-/* ===== Desktop action icons (bottom corners) ===== */
+/*  Desktop action icons (bottom corners)  */
 .desktop-actions{
   position:absolute;left:8px;right:8px;bottom:8px;display:flex;justify-content:space-between;pointer-events:none;
 }
@@ -226,7 +226,7 @@ button{font-family:inherit}
   .desktop-actions{ display:none; }
 }
 
-/* ===== Modal ===== */
+/*  Modal  */
 .edit-modal{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:2000;opacity:0;visibility:hidden;transition:.25s ease;backdrop-filter:blur(6px);}
 .edit-modal.active{opacity:1;visibility:visible;}
 .edit-box{background:var(--card);width:min(520px,92%);border-radius:16px;padding:20px;box-shadow:var(--shadow);color:var(--text);animation:pop .25s ease;border:1px solid var(--line)}
@@ -250,7 +250,7 @@ button{font-family:inherit}
 .provider-btn svg{width:18px;height:18px}
 .provider-group{display:flex;flex-direction:column;gap:8px;margin-top:10px}
 
-/* ===== Gradient presets ===== */
+/*  Gradient presets  */
 .preset-wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px}
 .preset{
   height:34px;border-radius:10px;border:1px solid var(--line);cursor:pointer;position:relative;overflow:hidden
@@ -259,7 +259,7 @@ button{font-family:inherit}
 .preset:focus-visible{outline:2px solid var(--ring);outline-offset:2px}
 .preset.active:after{box-shadow:inset 0 0 0 2px #fff}
 
-/* ===== Bottom bar (mobile) ===== */
+/*  Bottom bar (mobile)  */
 .mobile-bottom{
   position:fixed;left:0;right:0;bottom:0;padding:8px 14px 10px;z-index:999;
   display:none;
@@ -275,7 +275,7 @@ button{font-family:inherit}
 }
 .mobile-bottom .bar img{width:22px;height:22px;border-radius:6px;object-fit:cover}
 
-/* ===== Responsive rules ===== */
+/*  Responsive rules  */
 @media (max-width: 768px){
   .top-bar .left-controls,
   .top-bar .right-controls{ display:none; }
@@ -288,14 +288,12 @@ button{font-family:inherit}
   .tab-btn{font-size:12px;padding:7px 10px}
 }
 
-/* УБРАНО: любое старое меню "три точки" */
 .options-btn, .options-menu { display:none !important; }
 
-/* Дополнительно — на всякий случай сливаем фоны для устранения «шва» */
 html, body, .top-bar, .navbar, .mobile-search { 
   background: var(--bg) !important;
 }
-/* === Round avatar with glow (same as saved.html) === */
+/*  Round avatar with glow (same as saved.html)*/
 .avatar-circle-glow{
   width:36px;height:36px;border-radius:999px;overflow:hidden;position:relative;
   display:flex;align-items:center;justify-content:center;
@@ -465,7 +463,7 @@ html, body, .top-bar, .navbar, .mobile-search {
 
 <!-- Firebase + App -->
 <script type="module">
-/* =================== Firebase Imports =================== */
+/*  Firebase Imports  */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { 
   getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut,
@@ -475,7 +473,7 @@ import {
   getFirestore, doc, getDoc, setDoc 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* =================== Firebase config ===================*/
+/*  Firebase config */
 const firebaseConfig = {
   apiKey: "AIzaSyB7wYyFG1KNlVl8bW-3pn0U5fgHXktCGic",
   authDomain: "animy-ae6fa.firebaseapp.com",
@@ -489,7 +487,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ===== Translations + Icons ===== */
+/*  Translations + Icons  */
 const translations = {
   en:{home:"Home",movies:"Movies",anime:"Anime",trends:"Trends",watching:"Watching",liked:"Liked",disliked:"Disliked",list:"Add to list",remove:"Remove from list",editProfile:"Edit Profile",avatar:"Avatar",change:"Change",nickname:"Nickname",bio:"Bio",profileBg:"Profile background",saveChanges:"Save Changes",logOut:"Log Out",switchAccount:"Switch Account",close:"Close",yourList:"Your list",selectAnime:"Select Anime",login:"Login"},
   ua:{home:"Головна",movies:"Фільми",anime:"Аніме",trends:"Тренди",watching:"Дивлюся",liked:"Сподобалося",disliked:"Не сподобалося",list:"Додати до списку",remove:"Видалити зі списку",editProfile:"Редагувати профіль",avatar:"Аватар",change:"Змінити",nickname:"Нікнейм",bio:"Біографія",profileBg:"Фон профілю",saveChanges:"Зберегти зміни",logOut:"Вийти",switchAccount:"Змінити акаунт",close:"Закрити",yourList:"Ваш список",selectAnime:"Виберіть Аніме",login:"Увійти"},
@@ -520,7 +518,7 @@ const ICONS = {
 
 const logoWhite='img/animy_white.png', logoDark='img/animy.png';
 
-/* ===== DOM ===== */
+/*  DOM  */
 const profileHeader=document.getElementById("profileHeader");
 const userNameEl=document.getElementById("userName");
 const userBioEl=document.getElementById("userBio");
@@ -575,18 +573,18 @@ const googleBtn=document.getElementById("googleBtn");
 const appleBtn=document.getElementById("appleBtn");
 const emailBtn=document.getElementById("emailBtn");
 
-/* ===== Query helpers ===== */
+/*  Query helpers  */
 function getUidFromQuery(){
   const p = new URLSearchParams(location.search);
   return (p.get('uid')||'').trim();
 }
 
-/* ===== Local cache ===== */
+/*  Local cache  */
 let profileData=JSON.parse(localStorage.getItem("profileData")||"{}");
 let animeData=JSON.parse(localStorage.getItem("animeData")||"{}");
 if(!animeData.watching) animeData={watching:[],liked:[],disliked:[]};
 
-/* ===== Catalog ===== */
+/*  Catalog  */
 const SITE_CATALOG={
   "Attack on Titan":{file:"new1",link:"attack-on-titan.html",titles:{en:"Attack on Titan",ua:"Атака Титанів",de:"Attack on Titan"}},
   "Bleach":{file:"anime8",link:"bleach.html",titles:{en:"Bleach",ua:"Бліч",de:"Bleach"}},
@@ -606,7 +604,7 @@ const SITE_CATALOG={
   "Your Name":{file:"new3",link:"your-name.html",titles:{en:"Your Name",ua:"Твоє ім'я",de:"Your Name"}}
 };
 
-/* ===== Theme helpers ===== */
+/*  Theme helpers  */
 function currentTheme(){
   return document.body.classList.contains('theme-dark') ? 'dark' : 'light';
 }
@@ -630,32 +628,29 @@ function applyTheme(theme){
 
   const isDark = theme === "dark";
 
-  // верхняя панель (обрати внимание на названия search-icon*.png)
-  if (themeIconEl)  themeIconEl.src  = isDark ? "img/light.png" : "img/moon.png";     // «наоборот»
+  
+  if (themeIconEl)  themeIconEl.src  = isDark ? "img/light.png" : "img/moon.png";     
   if (savedIconEl)  savedIconEl.src  = isDark ? ICONS.dark.saved : ICONS.light.saved;
   if (searchBtnIcon) searchBtnIcon.src = isDark ? ICONS.dark.search : ICONS.light.search;
   if (searchIcon)   searchIcon.src   = isDark ? ICONS.dark.search : ICONS.light.search;
   if (mSearchIcon)  mSearchIcon.src  = isDark ? ICONS.dark.search : ICONS.light.search;
   if (logoImg)      logoImg.src      = isDark ? logoWhite : logoDark;
 
-  // мобильная нижняя панель
-  if (mbThemeIcon)  mbThemeIcon.src  = isDark ? "img/light.png" : "img/moon.png";     // «наоборот»
+ 
+  if (mbThemeIcon)  mbThemeIcon.src  = isDark ? "img/light.png" : "img/moon.png";     
   if (mbSavedIcon)  mbSavedIcon.src  = isDark ? ICONS.dark.saved : ICONS.light.saved;
   if (mbLangIcon)   mbLangIcon.src   = isDark ? ICONS.dark.translation : ICONS.light.translation;
 
-  // профильные иконки (учитываем аватар при логине)
   updateProfileIcons();
 
-  // иконки действий на карточках / в слоях свайпа
   refreshActionIcons();
 }
 
-/* ===== Read-only mode for viewing other user's profile ===== */
+/*  Read-only mode for viewing other user's profile  */
 let READ_ONLY_MODE = false;
 
 function setReadOnlyProfile(on){
   READ_ONLY_MODE = !!on;
-  // Прячем всё, что связано с редактированием / логином
   const hide = (el)=>{ if(el) el.style.display = 'none'; };
 
   hide(document.getElementById('editProfileBtn'));
@@ -664,7 +659,6 @@ function setReadOnlyProfile(on){
   hide(document.getElementById('switchAccountBtn'));
   hide(document.getElementById('saveProfileBtn'));
 
-  // Блокируем открытие модалки по аватару
   const avatarBtn = document.getElementById('avatarBtn');
   if(avatarBtn){
     avatarBtn.style.cursor = on ? 'default' : 'pointer';
@@ -685,7 +679,7 @@ function applyLang(lang){
   });
 }
 
-/* ===== Profile paint ===== */
+/*  Profile paint  */
 function shadeColor(color,percent){
   if(String(color).startsWith("linear-gradient(")) return color;
   let R=parseInt(color.substring(1,3),16),
@@ -722,7 +716,6 @@ function updateProfileIcons(){
   const hasUser  = !!auth.currentUser;
   const hasAvatar = !!(profileData && profileData.avatar && !isDefaultAvatar(profileData.avatar));
 
-  // мини-аватарки в шапке и внизу (новые элементы)
   const topThumb = document.getElementById('topAvatarImg') || document.getElementById('profileIcon');
   const botThumb = document.getElementById('mbAvatarImg')  || document.getElementById('mbProfileIcon');
 
@@ -750,7 +743,7 @@ function updateAuthUI(){
   updateProfileIcons();
 }
 
-/* ===== Cloud sync ===== */
+/*  Cloud sync  */
 async function loadCloud(uid){
   const ref=doc(db,"users",uid);
   const snap=await getDoc(ref);
@@ -770,14 +763,13 @@ async function saveCloud(uid){
   await setDoc(ref,{ profileData, animeData, updatedAt: Date.now() },{merge:true});
 }
 
-/* ===== Public profile loader (by UID from URL) ===== */
+/*  Public profile loader (by UID from URL)  */
 async function loadPublicProfile(uid){
   try{
     const ref  = doc(db, 'users', uid);
     const snap = await getDoc(ref);
 
     if(!snap.exists()){
-      // Пользователь не найден — мягко покажем это
       userNameEl.innerText = 'User not found';
       userBioEl.innerText  = '';
       avatarImg.src        = 'img/user-profile.png';
@@ -785,7 +777,7 @@ async function loadPublicProfile(uid){
       return;
     }
 
-/* ===== Public lists loader (watching/liked/disliked) by UID ===== */
+/*  Public lists loader (watching/liked/disliked) by UID  */
 async function loadPublicLists(uid){
   try{
     const ref  = doc(db, 'users', uid);
@@ -793,7 +785,6 @@ async function loadPublicLists(uid){
     const data = snap.exists() ? (snap.data()||{}) : {};
 
     const a = data.animeData || {};
-    // нормализуем структуру
     animeData = {
       watching: Array.isArray(a.watching) ? a.watching : [],
       liked:    Array.isArray(a.liked)    ? a.liked    : [],
@@ -818,14 +809,12 @@ async function loadPublicLists(uid){
                         (currentTheme()==='dark' ? 'img/user-profile_white.png' : 'img/user-profile.png');
     const bg          = p.bg || 'linear-gradient(135deg,#6c5ce7,#a78bfa)';
 
-    // Применяем в твою текущую верстку:
     userNameEl.innerText = displayName;
     userBioEl.innerText  = bio;
     avatarImg.src        = avatar;
     applyHeaderBG(bg);
 
-    // Синхронизируем мини-аватарки в шапке/низe
-    profileData = { name: displayName, bio, avatar, bg }; // локально для иконок/темы
+    profileData = { name: displayName, bio, avatar, bg }; 
     updateProfileIcons();
   }catch(e){
     console.warn('loadPublicProfile error', e);
@@ -835,7 +824,7 @@ async function loadPublicLists(uid){
 }
 
 
-/* ===== Gradient presets ===== */
+/*  Gradient presets  */
 const presets = [
   'linear-gradient(135deg,#6c5ce7,#a78bfa)',
   'linear-gradient(135deg,#22d3ee,#60a5fa)',
@@ -857,7 +846,7 @@ presets.forEach((g,i)=>{
   presetWrap.appendChild(btn);
 });
 
-/* ===== Add modal ===== */
+/*  Add modal  */
 let addModal=document.createElement("div");
 addModal.className="edit-modal";
 addModal.id="addModal";
@@ -889,14 +878,14 @@ addModal.addEventListener("click", async (e)=>{
   }
 });
 
-/* ===== Helpers ===== */
+/*  Helpers  */
 function persistLocal(){ localStorage.setItem("animeData", JSON.stringify(animeData)); }
 async function persistAll(){
   persistLocal();
   if(auth?.currentUser){ try{ await saveCloud(auth.currentUser.uid); }catch{} }
 }
 
-/* ===== Actions ===== */
+/*  Actions  */
 function doMove(name){
   if(currentTab === 'liked'){
     if(!animeData.disliked.includes(name)) animeData.disliked.push(name);
@@ -914,7 +903,7 @@ function doDelete(name){
   if(i>-1) animeData[currentTab].splice(i,1);
 }
 
-/* ===== Theme-driven icons in dynamic elements ===== */
+/*  Theme-driven icons in dynamic elements  */
 function refreshActionIcons(){
   const set = ICONS[currentTheme()];
   // desktop buttons
@@ -925,7 +914,7 @@ function refreshActionIcons(){
   document.querySelectorAll('.swipe-layer .right img').forEach(img=>img.src=set.move);
 }
 
-/* ===== Swipe (mobile) ===== */
+/*  Swipe (mobile)  */
 function attachSwipe(card, name){
   const content=card.querySelector('a');
   const layer=document.createElement('div');
@@ -947,7 +936,7 @@ function attachSwipe(card, name){
   }
 
   function onStart(e){
-    if(e.pointerType==='mouse') return; // свайпы только на таче
+    if(e.pointerType==='mouse') return; 
     dragging=true; clickCanceled=false;
     startX=e.clientX; curX=0;
     card.classList.add('swiping');
@@ -983,7 +972,7 @@ function attachSwipe(card, name){
   card.addEventListener('pointerleave', (e)=> dragging && onEnd(e));
 }
 
-/* ===== Desktop card actions ===== */
+/*  Desktop card actions  */
 function addDesktopActions(card, name){
   const actions = document.createElement('div');
   actions.className='desktop-actions';
@@ -1006,9 +995,9 @@ function addDesktopActions(card, name){
   });
 }
 
-/* ===== Render list ===== */
+/*  Render list  */
 function renderAddCard(){
-  if (READ_ONLY_MODE) return; // чужой профиль — не добавляем кнопку "+"
+  if (READ_ONLY_MODE) return;
   const addCard=document.createElement("div");
   addCard.className="big-card";
   addCard.style.cursor="pointer";
@@ -1028,7 +1017,6 @@ function renderList(){
   const list = animeData[currentTab] || [];
 
   if(list.length===0){
-    // В read-only просто пусто; в своём профиле ещё и "+" для добавления
     renderAddCard();
     return;
   }
@@ -1057,12 +1045,11 @@ function renderList(){
     bigGridEl.appendChild(card);
   });
 
-  // "+" только на своём профиле
   renderAddCard();
 }
 
 
-/* ===== Open/close modal & avatar ===== */
+/*  Open/close modal & avatar  */
 function openEditModal(showLoginChooser=false){
   editModal.classList.add("active");
   document.getElementById("editName").value=userNameEl.innerText||"";
@@ -1097,7 +1084,7 @@ document.getElementById("bgGradient").addEventListener('input',(e)=>{
   applyHeaderBG(profileData.bg);
 });
 
-/* ===== Save profile (local + cloud) ===== */
+/*  Save profile (local + cloud)  */
 document.getElementById("saveProfileBtn").onclick=async ()=>{
   profileData={
     name:document.getElementById("editName").value||"Username",
@@ -1113,7 +1100,7 @@ document.getElementById("saveProfileBtn").onclick=async ()=>{
   alert("Profile saved!");
 };
 
-/* ===== Login flows ===== */
+/*  Login flows  */
 if(loginBtn){ loginBtn.onclick=()=> openEditModal(true); }
 if(emailBtn){
   emailBtn.onclick=()=>{
@@ -1154,7 +1141,7 @@ if(doLoginBtn){
   };
 }
 
-/* ===== Logout & Switch ===== */
+/*  Logout & Switch  */
 document.getElementById("logoutBtn").onclick=async ()=>{
   if(confirm("Log out from this device? (Cloud data stays in Firebase)")){
     try{ await signOut(auth); }catch(e){}
@@ -1171,14 +1158,14 @@ document.getElementById("switchAccountBtn").onclick=async ()=>{
   }
 };
 
-/* ===== Tabs ===== */
+/*  Tabs  */
 const tabs=document.querySelectorAll(".tab-btn");
 let currentTab="watching";
 tabs.forEach(btn=>{
   btn.onclick=()=>{ tabs.forEach(b=>b.classList.remove("active")); btn.classList.add("active"); currentTab=btn.dataset.tab; renderList(); };
 });
 
-/* ===== Search & Saved ===== */
+/*  Search & Saved  */
 document.getElementById("savedBtn")?.addEventListener("click",()=>{ window.location.href="saved.html"; });
 
 function findLinkByQuery(q){
@@ -1213,7 +1200,7 @@ mSearchInput?.addEventListener('keydown', (e)=>{
   if(e.key==='Enter'){ const l=findLinkByQuery(mSearchInput.value||''); if(l) window.location.href=l; else alert('No anime found.'); }
 });
 
-/* ===== Theme/Lang init ===== */
+/*  Theme/Lang init  */
 const savedTheme=localStorage.getItem("theme")||"dark";
 const savedLang=localStorage.getItem("lang")||"en";
 applyTheme(savedTheme);
@@ -1243,40 +1230,37 @@ mbLang?.addEventListener('click', ()=>{
 mbSaved?.addEventListener('click', ()=> window.location.href='saved.html');
 mbProfile?.addEventListener('click', ()=> window.location.href='profile.html');
 
-/* ===== Open modal after switch ===== */
+/*  Open modal after switch  */
 if(sessionStorage.getItem("openEditModal")==="true"){
   openEditModal(true);
   sessionStorage.removeItem("openEditModal");
 }
 
-/* ===== Initial render ===== */
+/*  Initial render  */
 loadProfile();
 renderList();
 updateAuthUI();
 refreshActionIcons();
 
-/* ===== Auth state ===== */
+/*  Auth state  */
 onAuthStateChanged(auth, async (user)=>{
   updateAuthUI();
 
   const viewUid = getUidFromQuery();
   if(viewUid){
     try{
-      await loadPublicProfile(viewUid); // шапка: имя, био, фон, аватар
-      await loadPublicLists(viewUid);   // списки: watching/liked/disliked
-      setReadOnlyProfile(true);         // отключаем редактирование и «+»
+      await loadPublicProfile(viewUid); 
+      await loadPublicLists(viewUid);   
+      setReadOnlyProfile(true);        
     }catch(e){
       console.warn(e);
-      // даже если ошибка, всё равно переводим в read-only,
-      // чтобы не показались твои локальные кнопки
       setReadOnlyProfile(true);
       animeData = { watching:[], liked:[], disliked:[] };
       renderList();
     }
-    return; // не продолжаем в «своё облако»
+    return; 
   }
 
-  // Свой профиль: как раньше
   if(user){
     await loadCloud(user.uid);
     if(!profileData.name){
@@ -1287,7 +1271,6 @@ onAuthStateChanged(auth, async (user)=>{
     }
     editModal.classList.remove("active");
   }else{
-    // гость — локальные данные
     loadProfile();
     renderList();
   }

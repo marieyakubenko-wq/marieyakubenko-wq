@@ -38,7 +38,7 @@ html,body{height:100%;margin:0;font-family:"Inter",system-ui,-apple-system,Segoe
 img{max-width:100%;display:block}
 button{font-family:inherit}
 
-/* ===== Top Bar (Desktop/Tablet) ===== */
+/*  Top Bar (Desktop/Tablet)  */
 .top-bar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;gap:12px;background:var(--bg);border-bottom:0;z-index:999;backdrop-filter:saturate(180%) blur(6px)}
 .left-controls,.right-controls{display:flex;align-items:center;gap:10px;}
 .icon-btn{background:transparent;border:0;padding:6px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s, background .12s, box-shadow .12s}
@@ -47,14 +47,14 @@ button{font-family:inherit}
 .icon-btn img{width:26px;height:26px;object-fit:contain}
 #langSelect{background:transparent;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:6px 10px;font-size:14px;transition:border .18s}
 
-/* ===== Avatar (top + mobile bottom) — как в Movies ===== */
+/*  Avatar (top + mobile bottom)  */
 .avatar-circle-glow{
   width:36px;height:36px;border-radius:999px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;
   box-shadow:0 0 0 2px rgba(167,139,253,.55), 0 0 12px 3px rgba(167,139,253,.25);
 }
 .avatar-circle-glow img{width:100%;height:100%;object-fit:cover;border-radius:999px;display:block}
 
-/* ===== Navbar ===== */
+/*  Navbar  */
 .navbar{position:sticky;top:56px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg);z-index:40;border-bottom:none}
 .brand a{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{height:42px}
@@ -62,26 +62,26 @@ button{font-family:inherit}
 .nav-link{color:var(--text);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:500;font-size:clamp(12px, 3.3vw, 15px);line-height:1;transition:all .18s;white-space:nowrap}
 .nav-link:hover{color:var(--accent);background:rgba(99,102,241,.10)}
 
-/* ===== Desktop/Tablet Search ===== */
+/*  Desktop/Tablet Search  */
 .search-bar{position:fixed;top:96px;left:50%;transform:translateX(-50%);width:min(680px,92%);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);z-index:999;backdrop-filter:var(--glass-blur)}
 .hidden{display:none !important}
 .search-input{flex:1;border:none;background:transparent;color:var(--text);font-size:16px;padding:10px 8px}
 .search-ico-btn{background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .search-ico-btn img{width:22px;height:22px;opacity:.9}
 
-/* ===== Mobile search (sticky) ===== */
+/*  Mobile search */
 .mobile-search{position:sticky;top:0;z-index:998;padding:10px 14px 6px;background:linear-gradient(to bottom, var(--bg) 70%, transparent);display:none}
 .mobile-search .search-box{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--surface-strong);backdrop-filter:var(--glass-blur)}
 .mobile-search input{flex:1;border:none;background:transparent;color:var(--text);font-size:15px;padding:6px 4px}
 .mobile-search button{background:transparent;border:0;cursor:pointer}
 .mobile-search img{width:22px;height:22px;opacity:.9}
 
-/* ===== Hero ===== */
+/*  Hero  */
 .hero{height:60vh;min-height:420px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-top:6px}
 .hero-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(.95)}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(11,11,15,0.0) 0%, rgba(11,11,15,0.85) 75%)}
 
-/* ВАЖНО: контент слева */
+
 .hero-content{
   position:relative;z-index:5;padding:32px;max-width:1100px;margin:0 auto;color:#fff;
   text-align:left; display:flex; flex-direction:column; align-items:flex-start;
@@ -91,7 +91,7 @@ button{font-family:inherit}
 .hero-sub{margin:0 0 16px;color:#fff;font-size:.95rem}
 #watchNowBtn{margin-top:12px;padding:10px 18px;border-radius:10px;border:1px solid var(--line);background:rgba(125,0,255,0.18);color:#fff;font-family:inherit;font-size:1rem;cursor:pointer}
 
-/* ===== Releases slider ===== */
+/*  Releases slider  */
 .releases-container{position:relative;max-width:1200px;margin:28px auto 40px;overflow:hidden;display:flex;align-items:center;padding:0 16px}
 .grid-wrapper{overflow:hidden;flex:1}
 .grid{display:flex;gap:20px;transition:transform .5s ease}
@@ -109,17 +109,17 @@ button{font-family:inherit}
 .slider-btn.prev{left:6px}
 .slider-btn.next{right:6px}
 
-/* ===== Footer ===== */
+/*  Footer  */
 .site-footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,0.02);font-size:.9rem;margin-bottom:80px}
 
-/* ===== Mobile Bottom Bar (как в Movies) ===== */
+/*  Mobile Bottom Bar */
 .mobile-bottom{position:fixed;left:0;right:0;bottom:0;padding:8px 14px 10px;z-index:999;display:none}
 .mobile-bottom .bar{display:flex;align-items:center;justify-content:space-around;border:1px solid var(--line);border-radius:16px;background:var(--surface-strong);backdrop-filter:var(--glass-blur);padding:10px}
 .mobile-bottom .bar button{background:transparent;border:0;cursor:pointer;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
 .mobile-bottom .bar img{width:22px;height:22px;border-radius:6px;object-fit:cover}
 body.theme-light .mobile-bottom .bar img{filter:none}
 
-/* ===== Responsive ===== */
+/*  Responsive  */
 @media (max-width: 900px){
   .hero-title{font-size:38px}
 }
@@ -157,7 +157,7 @@ html, body, .top-bar, .navbar, .mobile-search { background: var(--bg) !important
     <button class="icon-btn" id="savedBtn" aria-label="Saved">
       <img id="savedIcon" src="img/bookmark_white.png" alt="saved">
     </button>
-    <!-- аватар -->
+    <!-- avatar -->
     <button id="topAvatarBtn" class="icon-btn" aria-label="Profile">
       <span class="avatar-circle-glow"><img id="topAvatarImg" src="img/user-profile.png" alt="avatar"></span>
     </button>
@@ -224,7 +224,7 @@ html, body, .top-bar, .navbar, .mobile-search { background: var(--bg) !important
   <small>© <span id="copyrightYear"></span> AniMy. <span data-i18n="rights">All rights reserved.</span></small>
 </footer>
 
-<!-- Mobile bottom bar (как в Movies) -->
+<!-- Mobile bottom bar -->
 <div class="mobile-bottom">
   <div class="bar">
     <button id="mbTheme" title="Theme"><img id="mbThemeIcon" src="img/light.png" alt="theme"></button>
@@ -238,9 +238,8 @@ html, body, .top-bar, .navbar, .mobile-search { background: var(--bg) !important
   </div>
 </div>
 
-<!-- Firebase + Avatar logic как в Movies -->
+<!-- Firebase + Avatar  -->
 <script type="module">
-/* ===== Firebase (как в твоём Movies) ===== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -258,7 +257,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ===== Translations ===== */
+/*  Translations  */
 const translations = {
   en:{home:"Home",movies:"Movies",anime:"Anime",trends:"Trends",rights:"All rights reserved.",phSearch:"Search anime..."},
   ua:{home:"Головна",movies:"Фільми",anime:"Аніме",trends:"Тренди",rights:"Всі права захищені.",phSearch:"Пошук аніме..."},
@@ -322,7 +321,7 @@ const animeTranslations = {
   }
 };
 
-/* ===== Releases data ===== */
+/*  Releases data  */
 const releases1 = [
   { img:"img/anime1.jpg", title:"One Piece" },
   { img:"img/anime2.jpg", title:"Jujutsu Kaisen" },
@@ -344,14 +343,14 @@ const releases2 = [
   { img:"img/new8.jpg", title:"Idol" }
 ];
 
-/* ===== Icons & logo sets ===== */
+/*  Icons & logo sets  */
 const ICONS = {
   dark: { search:'img/search-icon-white.png', saved:'img/bookmark_white.png', translation:'img/translation_white.png' },
   light:{ search:'img/search-icon.png',  saved:'img/bookmark.png',        translation:'img/translation.png' }
 };
 const logoWhite='img/animy_white.png', logoDark='img/animy.png';
 
-/* ===== DOM ===== */
+/*  DOM  */
 const body = document.body;
 const logoImg = document.getElementById('logoImg');
 const themeToggleBtn = document.getElementById('themeToggle');
@@ -380,7 +379,7 @@ const mbLangIcon = document.getElementById('mbLangIcon');
 const mbSaved = document.getElementById('mbSaved');
 const mbSavedIcon = document.getElementById('mbSavedIcon');
 
-/* ===== Lang apply ===== */
+/*  Lang apply  */
 function applyLang(lang){
   if(!translations[lang]) lang='en';
   document.documentElement.lang = lang;
@@ -395,8 +394,6 @@ function applyLang(lang){
     const key = el.getAttribute('data-i18n-placeholder');
     if(translations[lang][key]) el.setAttribute('placeholder', translations[lang][key]);
   });
-
-  // обновить тексты карточек
   document.querySelectorAll('[data-anime]').forEach(el=>{
     const key = el.getAttribute('data-anime');
     const t = animeTranslations[lang][key];
@@ -408,7 +405,6 @@ function applyLang(lang){
     }
   });
 
-  // обновить тексты HERO
   if (window.heroData?.length){
     const i = window.currentHeroIndex || 0;
     const item = window.heroData[i];
@@ -429,7 +425,7 @@ function updateWatchText(lang){
   else btn.textContent = 'Watch now';
 }
 
-/* ===== Theme ===== */
+/*  Theme  */
 function applyTheme(theme){
   body.classList.remove('theme-dark','theme-light');
   body.classList.add('theme-'+theme);
@@ -449,7 +445,7 @@ function applyTheme(theme){
   updateAvatarImgs();
 }
 
-/* ===== Avatar helpers: ТАК ЖЕ как в Movies ===== */
+/*  Avatar helpers */
 let profileData = JSON.parse(localStorage.getItem("profileData")||"{}");
 
 function isDefaultAvatar(src){
@@ -469,7 +465,7 @@ function updateAvatarImgs(){
   if (mbAvatarImg)  mbAvatarImg.src  = photo;
 }
 
-/* ===== Slider builder ===== */
+/*  Slider builder  */
 function initSlider(gridId, prevBtnId, nextBtnId, releases, prefix){
   const cardGrid = document.getElementById(gridId);
   let scrollIndex = 0;
@@ -524,7 +520,7 @@ function initSlider(gridId, prevBtnId, nextBtnId, releases, prefix){
   }
 }
 
-/* ===== Search ===== */
+/*  Search  */
 function findLinkByQuery(q){
   const query = (q||'').toLowerCase().trim();
   const pool = [...releases1, ...releases2];
@@ -562,7 +558,7 @@ mSearchInput?.addEventListener('keydown', (e)=>{
   }
 });
 
-/* ===== Theme/Lang init & controls ===== */
+/*  Theme/Lang init & controls  */
 const savedTheme = localStorage.getItem('theme') || 'dark';
 applyTheme(savedTheme);
 const savedLang = localStorage.getItem('lang') || 'en';
@@ -586,7 +582,7 @@ mbLang?.addEventListener('click', ()=>{
   langSelect.value = order[idx];
 });
 
-/* ===== HERO rotation (слева подписи сохранены) ===== */
+/*  HERO rotation */
 const heroVideo = document.getElementById('heroVideo');
 const heroSource = document.getElementById('heroSource');
 const heroTitleEl = document.getElementById('heroTitle');
@@ -628,18 +624,17 @@ function setHero(i){
 setHero(currentHeroIndex);
 setInterval(()=>{ currentHeroIndex = (currentHeroIndex+1)%heroData.length; setHero(currentHeroIndex); }, intervalMs);
 
-/* ===== Sliders ===== */
+/*  Sliders  */
 initSlider("cardGrid1","prevBtn1","nextBtn1",releases1,"anime");
 initSlider("cardGrid2","prevBtn2","nextBtn2",releases2,"new");
 
-/* ===== Footer year ===== */
+/*  Footer year  */
 document.getElementById('copyrightYear').textContent = new Date().getFullYear();
 
-/* ===== Навигация аватара (как в Movies) ===== */
+/*  Avatar navigation   */
 topAvatarBtn.addEventListener('click', ()=> location.href='profile.html');
 mbProfile.addEventListener('click', ()=> location.href='profile.html');
 
-/* ===== Подтянуть профиль из Firestore и обновить аватар (как в Movies) ===== */
 async function syncProfileDataFromCloud(user){
   if(!user) return;
   const ref = doc(db, "users", user.uid);
@@ -657,7 +652,6 @@ onAuthStateChanged(auth, async (user)=>{
   updateAvatarImgs();
 });
 
-/* Стартовая отрисовка аватаров из localStorage даже без логина */
 updateAvatarImgs();
 </script>
 </body>
