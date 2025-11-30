@@ -66,8 +66,7 @@ Category & Technologies
 
 # GitHub Stats
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=marieyakubenko-wq&show_icons=true&theme=radical" height="160" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=marieyakubenko-wq&layout=compact&theme=radical" height="160" />
+  <img src="[https://github-readme-stats.vercel.app/api?username=marieyakubenko-wq&show_icons=true&theme=radical](https://github.com/marieyakubenko-wq/marieyakubenko-wq)" height="160" />
 </p>
 
 ---
