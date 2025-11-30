@@ -1,0 +1,613 @@
+<!doctype html> 
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AniMy - Your Name</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+<link rel="manifest" href="img/site.webmanifest">
+<link rel="icon" href="img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poiret+One&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+  --bg:#ffffff; --text:#0b0c10; --muted:#6e6e79; --card:#f6f7fb; --line:rgba(15,17,22,.12);
+  --shadow:0 12px 28px rgba(15,17,22,.06);
+  --accent:#6c5ce7; --accent-2:#a78bfa; --accent-3:#22d3ee; --danger:#ef4444;
+  --ring: rgba(108,92,231,.35);
+  --surface: rgba(10,12,16,.08); --surface-strong: rgba(10,12,16,.12); --glass-blur: saturate(140%) blur(10px);
+
+  /* comments light */
+  --c-bg: #ffffff;
+  --c-text: #0b0c10;
+  --c-input-bg: #ffffff;
+  --c-input-border: rgba(15,17,22,.15);
+  --c-sep: rgba(15,17,22,.12);
+  --c-link:#6c5ce7;
+}
+body.theme-dark{
+  --bg:#000; --text:#f5f7fb; --muted:#b7bbca; --card:#161923; --line:rgba(255,255,255,.10);
+  --shadow:0 14px 36px rgba(0,0,0,.35);
+  --accent:#a78bfa; --accent-2:#c4b5fd; --accent-3:#22d3ee; --danger:#f87171;
+  --ring: rgba(167,139,253,.35);
+  --surface: rgba(255,255,255,.08); --surface-strong: rgba(255,255,255,.14);
+
+  /* comments dark */
+  --c-bg: rgba(0,0,0,.60);
+  --c-text: #ffffff;
+  --c-input-bg: rgba(255,255,255,.06);
+  --c-input-border: rgba(255,255,255,.18);
+  --c-sep: rgba(255,255,255,.12);
+  --c-link:#a88aed;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;font-size:16px;line-height:1.65;background:var(--bg);color:var(--text);transition:background .18s,color .18s;width:100%;overflow-x:hidden}
+img{max-width:100%;display:block}
+button{font-family:inherit}
+
+/* ==== TOP BAR ==== */
+.top-bar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;gap:12px;background:var(--bg);border-bottom:0!important;z-index:999;backdrop-filter:saturate(180%) blur(6px)}
+.left-controls,.right-controls{display:flex;align-items:center;gap:10px}
+.icon-btn{background:transparent;border:0;padding:6px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s, background .12s, box-shadow .12s}
+.icon-btn:active{transform:scale(.96)}
+.icon-btn:focus-visible{outline:2px solid var(--ring); outline-offset:2px; border-radius:12px;}
+.icon-btn img{width:26px;height:26px;object-fit:contain}
+#langSelect{background:transparent;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:6px 10px;font-size:14px}
+
+/* ==== NAVBAR ==== */
+.navbar{position:sticky;top:46px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg);z-index:40;border-top:none;border-bottom:none}
+.brand a{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav{display:flex;gap:14px;flex-wrap:wrap;max-width:100%}
+.nav-link{color:var(--text);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:500;font-size:clamp(12px,3.3vw,15px);line-height:1;transition:all .18s;white-space:nowrap}
+.nav-link:hover{color:var(--accent);background:rgba(99,102,241,.10)}
+.nav{overflow:hidden}
+
+/* ==== SEARCH ==== */
+.search-bar{position:fixed;top:64px;left:50%;transform:translateX(-50%);width:min(680px,92%);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);z-index:999;backdrop-filter:var(--glass-blur)}
+.hidden{display:none!important}
+.search-input{flex:1;border:none;background:transparent;color:var(--text);font-size:16px;padding:10px 8px}
+.search-ico-btn{background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.search-ico-btn img{width:22px;height:22px;opacity:.9}
+
+.mobile-search{position:sticky;top:0;z-index:998;padding:10px 14px 6px;background:linear-gradient(to bottom, var(--bg) 70%, transparent);display:none}
+.mobile-search .search-box{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--surface-strong);backdrop-filter:var(--glass-blur)}
+.mobile-search input{flex:1;border:none;background:transparent;color:var(--text);font-size:15px;padding:6px 4px;}
+.mobile-search button{background:transparent;border:0;cursor:pointer}
+.mobile-search img{width:22px;height:22px;opacity:.9}
+
+/* ==== AVATAR (glow) ==== */
+.avatar-circle-glow{
+  width:36px;height:36px;border-radius:999px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 2px rgba(167,139,253,.55), 0 0 12px 3px rgba(167,139,253,.25);
+}
+.avatar-circle-glow img{width:100%;height:100%;object-fit:cover;border-radius:999px;display:block}
+
+/* ==== HERO ==== */
+.hero{
+  position: relative;
+  margin-top: 110px;
+  min-height: 520px;
+  height: clamp(520px, 72vh, 780px);
+  overflow: hidden;
+}
+.hero-video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.hero-overlay{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(0,0,0,.20), rgba(0,0,0,.42));
+}
+.hero-content{
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  height: 100%;
+}
+.anime-title-logo img{
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: none;
+  outline: none;
+}
+
+/* ==== TRAILER (YouTube, 16:9) ==== */
+.video-container{
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+}
+@media (max-width: 1024px){
+  .video-container{ max-width: 720px; }
+}
+@media (max-width: 768px){
+  .video-container{ max-width: 640px; }
+}
+.video-container::before{
+  content:"";
+  display:block;
+  padding-top:56.25%;
+}
+.video-container iframe{
+  position:absolute; inset:0;
+  width:100%; height:100%; border:0; display:block;
+}
+
+/* ==== PAGE CONTENT ==== */
+.page-wrap{max-width:960px;margin:24px auto 80px;padding:0 16px}
+.actions-top{display:flex;justify-content:flex-end;align-items:center;margin-bottom:10px}
+.save-anime-btn{background:none;border:none;padding:0;cursor:pointer}
+.save-anime-btn img{width:32px;height:32px;display:block}
+
+/* ==== COMMENTS ==== */
+.comments{
+  background:var(--c-bg);
+  color:var(--c-text);
+  border-radius:14px;
+  padding:20px 22px;
+  font-size:0.95rem;
+  box-shadow: var(--shadow);
+}
+.comments h2{margin:0 0 8px;font-size:1.15rem}
+.comments form{margin-top:8px}
+.comments textarea{
+  width:100%;padding:12px;border-radius:10px;border:1px solid var(--c-input-border);
+  background:var(--c-input-bg);color:var(--c-text);font-size:0.95rem;resize:vertical;min-height:90px;
+}
+.comments button[type="submit"]{
+  padding:9px 14px;border:none;border-radius:10px;background:#dfd6ff;color:#000;font-weight:700;cursor:pointer;font-size:.95rem
+}
+.comment{padding:10px 0;border-bottom:1px solid var(--c-sep)}
+.comment:last-child{border-bottom:none}
+.comment .meta{font-size:.85rem;color:var(--muted)}
+.comment .meta a{color:var(--c-link);text-decoration:none;font-weight:600}
+.comment .text{white-space:pre-wrap;margin-top:6px;line-height:1.45}
+
+/* ==== MOBILE BOTTOM ==== */
+.mobile-bottom{position:fixed;left:0;right:0;bottom:0;padding:8px 14px 10px;z-index:999;display:none}
+.mobile-bottom .bar{display:flex;align-items:center;justify-content:space-around;border:1px solid var(--line);border-radius:16px;background:var(--surface-strong);backdrop-filter:var(--glass-blur);padding:10px}
+.mobile-bottom .bar button{background:transparent;border:0;cursor:pointer;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.mobile-bottom .bar img{width:22px;height:22px;border-radius:6px;object-fit:cover}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width:768px){
+  .top-bar .left-controls,.top-bar .right-controls{display:none}
+  .mobile-search{display:block}
+  .mobile-bottom{display:block}
+  .navbar{top:0}
+}
+</style>
+</head>
+<body class="theme-dark">
+
+<!-- Top bar -->
+<div class="top-bar">
+  <div class="left-controls">
+    <button id="themeToggle" class="icon-btn" title="Toggle theme">
+      <img id="themeIcon" src="img/light.png" alt="theme">
+    </button>
+    <select id="langSelect">
+      <option value="en">EN</option><option value="ua">UA</option><option value="de">DE</option>
+    </select>
+  </div>
+  <div class="right-controls">
+    <button class="icon-btn" id="searchBtn" aria-label="Search">
+      <img id="searchBtnIcon" src="img/search-icon-white.png" alt="search">
+    </button>
+    <button class="icon-btn" id="savedBtn" aria-label="Saved">
+      <img id="savedIcon" src="img/bookmark_white.png" alt="saved">
+    </button>
+    <button id="topAvatarBtn" class="icon-btn" aria-label="Profile">
+      <span class="avatar-circle-glow"><img id="topAvatarImg" src="img/user-profile_white.png" alt="avatar"></span>
+    </button>
+  </div>
+</div>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="brand">
+    <a href="index.html"><img id="logoImg" src="img/animy_white.png" style="height:42px;" alt="AniMy"></a>
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="nav-link" data-i18n="home">Home</a>
+    <a href="movie.html" class="nav-link" data-i18n="movies">Movies</a>
+    <a href="anime.html" class="nav-link" data-i18n="anime">Anime</a>
+    <a href="trends.html" class="nav-link" data-i18n="trends">Trends</a>
+  </nav>
+</header>
+
+<!-- Mobile search -->
+<div class="mobile-search">
+  <div class="search-box">
+    <input id="mSearchInput" type="text" placeholder="Search anime..." />
+    <button id="mSearchGo" aria-label="Search">
+      <img id="mSearchIcon" src="img/search-icon-white.png" alt="go">
+    </button>
+  </div>
+</div>
+
+<!-- Desktop/Tablet search -->
+<div id="searchBar" class="search-bar hidden">
+  <input type="text" id="searchInput" class="search-input" placeholder="Search anime..." />
+  <button id="searchGo" class="search-ico-btn" aria-label="Search">
+    <img id="searchIcon" src="img/search-icon-white.png" alt="search">
+  </button>
+</div>
+
+<!-- HERO: Your Name -->
+<section class="hero" aria-label="Hero - Your Name">
+  <video autoplay muted loop playsinline class="hero-video" aria-hidden="true">
+    <source src="vid/your-name.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="anime-title-logo" style="position: relative; z-index: 3; text-align: center;">
+      <a href="img/your-name.png" target="_blank">
+        <img src="img/your-name.png" alt="Your Name Poster" style="max-width: 250px; width: 100%; height: auto; border-radius:10px;">
+      </a>
+    </div>
+
+    <div class="video-container" role="region" aria-label="Your Name Trailer" style="position: relative; z-index: 2;">
+      <iframe
+        src="https://www.youtube.com/embed/xU47nhruN-Q"
+        title="Your Name Trailer"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="page-wrap">
+  <div class="actions-top">
+    <button id="saveAnimeBtn" class="save-anime-btn" aria-label="Save to favorites" title="Save">
+      <img id="saveAnimeIcon" src="img/bookmark_white.png" alt="Save Icon">
+    </button>
+  </div>
+
+  <section class="comments" aria-label="Comments">
+    <h2 data-i18n="comments">Comments</h2>
+    <form id="commentForm">
+      <textarea id="commentInput" rows="4" data-i18n-placeholder="commentPlaceholder" placeholder="Leave your comment!"></textarea>
+      <button type="submit" data-i18n="sendBtn">Send</button>
+    </form>
+    <div id="commentsList" style="margin-top:8px;"></div>
+  </section>
+</div>
+
+<!-- Mobile bottom bar -->
+<div class="mobile-bottom">
+  <div class="bar">
+    <button id="mbTheme" title="Theme"><img id="mbThemeIcon" src="img/light.png" alt="theme"></button>
+    <button id="mbLang" title="Language"><img id="mbLangIcon" src="img/translation_white.png" alt="lang"></button>
+    <button id="mbSaved" title="Saved"><img id="mbSavedIcon" src="img/bookmark_white.png" alt="saved"></button>
+    <button id="mbProfile" title="Profile" aria-label="Profile" style="background:transparent;border:0;padding:0;">
+      <span class="avatar-circle-glow" style="width:36px;height:36px;">
+        <img id="mbAvatarImg" src="img/user-profile_white.png" alt="avatar">
+      </span>
+    </button>
+  </div>
+</div>
+
+<!-- Firebase + App -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup,
+  signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, collection, addDoc, serverTimestamp,
+  query, orderBy, onSnapshot, doc, getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB7wYyFG1KNlVl8bW-3pn0U5fgHXktCGic",
+  authDomain: "animy-ae6fa.firebaseapp.com",
+  projectId: "animy-ae6fa",
+  storageBucket: "animy-ae6fa.firebasestorage.app",
+  messagingSenderId: "795248580471",
+  appId: "1:795248580471:web:c821c22700a045bbb53372",
+  measurementId: "G-TFM93P4HRE"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+/* ===== i18n ===== */
+const i18n = {
+  comments:{en:"Comments",ua:"Коментарі",de:"Kommentare"},
+  commentPlaceholder:{en:"Leave your comment!",ua:"Залиште свій коментар!",de:"Hinterlasse deinen Kommentar!"},
+  sendBtn:{en:"Send",ua:"Надіслати",de:"Senden"},
+  home:{en:"Home",ua:"Головна",de:"Startseite"}, movies:{en:"Movies",ua:"Фільми",de:"Filme"},
+  anime:{en:"Anime",ua:"Аніме",de:"Anime"}, trends:{en:"Trends",ua:"Тренди",de:"Trends"}
+};
+function applyLang(lang){
+  document.documentElement.lang=lang; document.body.dataset.lang=lang; localStorage.setItem("lang",lang);
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ const k=el.dataset.i18n; if(i18n[k]?.[lang]) el.textContent=i18n[k][lang]; });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{ const k=el.dataset.i18nPlaceholder; if(i18n[k]?.[lang]) el.placeholder=i18n[k][lang]; });
+}
+
+/* ===== theme icons ===== */
+const ICONS = {
+  dark: {
+    theme:'img/light.png',
+    search:'img/search-icon-white.png',
+    saved:'img/bookmark_white.png',
+    translation:'img/translation_white.png',
+    save:'img/bookmark_white.png',
+    logo:'img/animy_white.png',
+    avatar:'img/user-profile_white.png'
+  },
+  light: {
+    theme:'img/moon.png',
+    search:'img/search-icon.png',
+    saved:'img/bookmark.png',
+    translation:'img/translation.png',
+    save:'img/bookmark.png',
+    logo:'img/animy.png',
+    avatar:'img/user-profile.png'
+  }
+};
+const themeIconEl   = document.getElementById('themeIcon');
+const savedIconEl   = document.getElementById('savedIcon');
+const searchBtnIcon = document.getElementById('searchBtnIcon');
+const searchIcon    = document.getElementById('searchIcon');
+const mSearchIcon   = document.getElementById('mSearchIcon');
+const logoImg       = document.getElementById('logoImg');
+const saveAnimeIcon = document.getElementById('saveAnimeIcon');
+
+/* bottom bar icons */
+const mbThemeIcon   = document.getElementById('mbThemeIcon');
+const mbLangIcon    = document.getElementById('mbLangIcon');
+const mbSavedIcon   = document.getElementById('mbSavedIcon');
+
+/* avatars */
+const topAvatarBtn  = document.getElementById('topAvatarBtn');
+const topAvatarImg  = document.getElementById('topAvatarImg');
+const mbProfileBtn  = document.getElementById('mbProfile');
+const mbAvatarImg   = document.getElementById('mbAvatarImg');
+
+function currentTheme(){ return document.body.classList.contains('theme-dark')?'dark':'light'; }
+
+function applyTheme(theme){
+  const isDark = (theme==='dark');
+  document.body.classList.toggle('theme-dark,', false); /* reset */
+  document.body.classList.toggle('theme-dark', isDark);
+
+  themeIconEl.src   = isDark ? ICONS.dark.theme : ICONS.light.theme;
+  savedIconEl.src   = isDark ? ICONS.dark.saved : ICONS.light.saved;
+  if (searchBtnIcon) searchBtnIcon.src = isDark ? ICONS.dark.search : ICONS.light.search;
+  if (searchIcon)    searchIcon.src    = isDark ? ICONS.dark.search : ICONS.light.search;
+  if (mSearchIcon)   mSearchIcon.src   = isDark ? ICONS.dark.search : ICONS.light.search;
+  logoImg.src        = isDark ? ICONS.dark.logo : ICONS.light.logo;
+
+  if (mbThemeIcon) mbThemeIcon.src = isDark ? ICONS.dark.theme : ICONS.light.theme;
+  if (mbLangIcon)  mbLangIcon.src  = isDark ? ICONS.dark.translation : ICONS.light.translation;
+  if (mbSavedIcon) mbSavedIcon.src = isDark ? ICONS.dark.saved : ICONS.light.saved;
+
+  if (saveAnimeIcon) saveAnimeIcon.src = isDark ? ICONS.dark.save : ICONS.light.save;
+
+  updateAvatarImgs();
+}
+
+/* ===== avatar helpers ===== */
+function isDefaultAvatar(src){
+  if (!src) return true;
+  try { const path=(new URL(src, location.href)).pathname; return /\/img\/user-profile(_white)?\.png$/i.test(path); }
+  catch { return /img\/user-profile(_white)?\.png$/i.test(src); }
+}
+async function fetchProfileAvatar(uid){
+  try{
+    const ref = doc(db, 'users', uid);
+    const snap = await getDoc(ref);
+    if (snap.exists()){
+      const data = snap.data() || {};
+      const p    = data.profileData || {};
+      if (p.avatar && !isDefaultAvatar(p.avatar)) return p.avatar;
+    }
+  }catch(e){ console.warn('fetchProfileAvatar error', e); }
+  return null;
+}
+async function updateAvatarImgs(){
+  const isDark = currentTheme()==='dark';
+  const def = isDark ? ICONS.dark.avatar : ICONS.light.avatar;
+
+  let photo = null;
+  const user = auth.currentUser;
+
+  if (user){
+    photo = await fetchProfileAvatar(user.uid);
+    if (!photo && user.photoURL) photo = user.photoURL;
+  }
+  if (!photo) photo = def;
+
+  topAvatarImg.src = photo;
+  mbAvatarImg.src  = photo;
+}
+
+/* ===== init lang/theme ===== */
+applyTheme(localStorage.getItem('theme')||'dark');
+applyLang(localStorage.getItem('lang')||'en');
+document.getElementById('langSelect').value = localStorage.getItem('lang')||'en';
+
+document.getElementById('themeToggle')?.addEventListener('click',()=>{
+  const t=currentTheme()==='dark'?'light':'dark'; localStorage.setItem('theme',t); applyTheme(t);
+});
+document.getElementById('langSelect')?.addEventListener('change',(e)=>applyLang(e.target.value));
+
+/* ===== nav/search ===== */
+document.getElementById("searchBtn")?.addEventListener("click",()=>{
+  const bar=document.getElementById('searchBar'); bar.classList.toggle('hidden');
+  if(!bar.classList.contains('hidden')) document.getElementById('searchInput').focus();
+});
+document.getElementById('searchGo')?.addEventListener('click',()=>{
+  const q=(document.getElementById('searchInput').value||'').trim(); if(q) location.href=`search.html?q=${encodeURIComponent(q)}`;
+});
+document.getElementById('searchInput')?.addEventListener('keydown',(e)=>{
+  if(e.key==='Enter'){ const q=(e.target.value||'').trim(); if(q) location.href=`search.html?q=${encodeURIComponent(q)}`; }
+});
+document.getElementById('mSearchGo')?.addEventListener('click',()=>{
+  const q=(document.getElementById('mSearchInput').value||'').trim(); if(q) location.href=`search.html?q=${encodeURIComponent(q)}`;
+});
+document.getElementById('mSearchInput')?.addEventListener('keydown',(e)=>{
+  if(e.key==='Enter'){ const q=(e.target.value||'').trim(); if(q) location.href=`search.html?q=${encodeURIComponent(q)}`; }
+});
+document.getElementById('savedBtn')?.addEventListener('click',()=>location.href='saved.html');
+document.getElementById('mbSaved')?.addEventListener('click',()=>location.href='saved.html');
+topAvatarBtn?.addEventListener('click',()=>location.href='profile.html');
+mbProfileBtn?.addEventListener('click',()=>location.href='profile.html');
+
+/* ===== Save (localStorage) ===== */
+/* ------------------------------------------------------------------
+   ЕДИНСТВЕННЫЙ БЛОК ДЛЯ ЗАМЕНЫ НА ДРУГИХ СТРАНИЦАХ
+------------------------------------------------------------------ */
+const CURRENT_ANIME_DATA = {
+  file: "new3",
+  link: "your-name.html",
+  titles: {
+    en: "Your Name",
+    ua: "Твоє ім’я",
+    de: "Your Name"
+  }
+};
+const ANIME_FILE_KEY = CURRENT_ANIME_DATA.file;
+function getSavedAnimeList(){ try{ return JSON.parse(localStorage.getItem('savedAnime'))||[]; }catch{return [];} }
+function updateSaveIcon(isSaved){
+  if(!saveAnimeIcon) return;
+  if(isSaved){ saveAnimeIcon.src='img/bookmark_yellow.png'; }
+  else{ saveAnimeIcon.src = currentTheme()==='dark' ? ICONS.dark.save : ICONS.light.save; }
+}
+function checkSavedStatus(){
+  const list=getSavedAnimeList(); updateSaveIcon(list.some(it=>it.file===ANIME_FILE_KEY));
+}
+function toggleSaveAnime(){
+  let list=getSavedAnimeList();
+  const isSaved=list.some(it=>it.file===ANIME_FILE_KEY);
+  if(isSaved){ list=list.filter(it=>it.file!==ANIME_FILE_KEY); }
+  else{ list.push(CURRENT_ANIME_DATA); }
+  localStorage.setItem('savedAnime', JSON.stringify(list));
+  updateSaveIcon(!isSaved);
+}
+document.getElementById('saveAnimeBtn')?.addEventListener('click', toggleSaveAnime);
+checkSavedStatus();
+
+/* ===== Comments (Firestore realtime) ===== */
+const commentsColPath = `comments/${ANIME_FILE_KEY}/items`;
+const qComments = query(collection(db, commentsColPath), orderBy('createdAt','desc'));
+const commentsList = document.getElementById('commentsList');
+const commentForm  = document.getElementById('commentForm');
+const commentInput = document.getElementById('commentInput');
+
+onSnapshot(qComments, (snap)=>{
+  commentsList.innerHTML='';
+  snap.forEach(doc=> commentsList.appendChild(renderComment(doc.data())) );
+}, (err)=>{ console.error('Comments subscribe error:', err); });
+
+function renderComment(d){
+  const uid  = d.uid || '';
+  const name = d.displayName || 'User';
+  const text = d.text || '';
+  const ts   = d.createdAt?.toDate?.() || new Date();
+  const date = ts.toLocaleString();
+
+  const wrap = document.createElement('div');
+  wrap.className='comment';
+  wrap.innerHTML = `
+    <div class="meta">
+      <a href="profile.html?uid=${encodeURIComponent(uid)}">${escapeHTML(name)}</a>
+      <span style="opacity:.75;"> · ${escapeHTML(date)}</span>
+    </div>
+    <div class="text">${escapeHTML(text)}</div>
+  `;
+  return wrap;
+}
+function escapeHTML(str){ return String(str).replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s])); }
+
+commentForm.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const text=(commentInput.value||'').trim();
+  if(!text) return;
+
+  let user = auth.currentUser;
+
+  if(!user){
+    try{
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      user = auth.currentUser;
+      if(!user) throw new Error('Login failed');
+      if(!user.displayName && user.email){
+        await updateProfile(user, { displayName: user.email.split('@')[0] });
+      }
+      await updateAvatarImgs();
+    }catch(err){
+      console.error('Google sign-in error:', err);
+      const email = prompt("Email:"); const pwd = email ? prompt("Password (new or existing):") : null;
+      if(!email || !pwd) return;
+      try{
+        await signInWithEmailAndPassword(auth,email,pwd);
+      }catch(e2){
+        if(e2.code==="auth/user-not-found"){
+          const cred = await createUserWithEmailAndPassword(auth,email,pwd);
+          await updateProfile(cred.user,{ displayName: email.split('@')[0] });
+        }else{ alert(e2.message); return; }
+      }
+      await updateAvatarImgs();
+      user = auth.currentUser;
+    }
+  }
+
+  try{
+    await addDoc(collection(db, commentsColPath), {
+      uid: user.uid,
+      displayName: user.displayName || (user.email ? user.email.split('@')[0] : 'User'),
+      text,
+      createdAt: serverTimestamp()
+    });
+    commentInput.value='';
+  }catch(err){
+    console.error('Firestore addDoc error:', err);
+    alert('Failed to send comment');
+  }
+});
+
+onAuthStateChanged(auth, async ()=>{
+  await updateAvatarImgs();
+});
+
+/* mobile bottom quick actions */
+document.getElementById('mbTheme')?.addEventListener('click',()=>{
+  const t=currentTheme()==='dark'?'light':'dark'; localStorage.setItem('theme',t); applyTheme(t);
+});
+document.getElementById('mbLang')?.addEventListener('click',()=>{
+  const order=['en','ua','de']; const cur=localStorage.getItem('lang')||'en';
+  const next=order[(order.indexOf(cur)+1)%order.length];
+  document.getElementById('langSelect').value=next; applyLang(next);
+});
+</script>
+</body>
+</html>

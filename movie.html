@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AniMy - Movies</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+<link rel="manifest" href="img/site.webmanifest">
+<link rel="icon" href="img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poiret+One&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+  --bg:#ffffff; --text:#090a0c; --muted:#6e6e79; --card:#f6f7fb; --line:rgba(15,17,22,.08);
+  --shadow:0 12px 28px rgba(15,17,22,.06); --accent:#6c5ce7; --accent-2:#a78bfa; --accent-3:#22d3ee; --danger:#ef4444;
+  --ring: rgba(108,92,231,.35); --surface: rgba(10,12,16,.12); --surface-strong: rgba(10,12,16,.18);
+  --glass-blur: saturate(140%) blur(10px);
+
+  --top-offset: 96px;
+
+  /* боковые видео */
+  --side-w: 320px;
+  --side-gap: 18px;
+  --side-opacity: .28;
+}
+body.theme-dark{
+  --bg:#000000; --text:#f5f7fb; --muted:#b7bbca; --card:#161923; --line:rgba(255,255,255,.08);
+  --shadow:0 14px 36px rgba(0,0,0,.35); --accent:#a78bfa; --accent-2:#c4b5fd; --accent-3:#22d3ee; --danger:#f87171;
+  --ring: rgba(167,139,253,.35); --surface: rgba(255,255,255,.08); --surface-strong: rgba(255,255,255,.14);
+
+  --side-opacity: .32;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;font-size:16px;line-height:1.65;background:var(--bg);color:var(--text);transition:background .18s,color .18s;width:100%;overflow-x:hidden;font-weight:400}
+img{max-width:100%;display:block}
+button{font-family:inherit}
+
+/* ===== Top Bar (ПК/планшет) ===== */
+.top-bar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;gap:12px;background:var(--bg);border-bottom:0 !important;z-index:999;backdrop-filter:saturate(180%) blur(6px)}
+.left-controls,.right-controls{display:flex;align-items:center;gap:10px;}
+.icon-btn{background:transparent;border:0;padding:6px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s, background .12s, box-shadow .12s}
+.icon-btn:active{transform:scale(.96)}
+.icon-btn:focus-visible{outline:2px solid var(--ring); outline-offset:2px; border-radius:12px;}
+.icon-btn img{width:26px;height:26px;object-fit:contain}
+#langSelect{background:transparent;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:6px 10px;font-size:14px;transition:border .18s}
+
+/* ===== Avatar (top + mobile bottom) ===== */
+.avatar-circle-glow{
+  width:36px;height:36px;border-radius:999px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 2px rgba(167,139,253,.55), 0 0 12px 3px rgba(167,139,253,.25);
+}
+.avatar-circle-glow img{width:100%;height:100%;object-fit:cover;border-radius:999px;display:block}
+
+/* ===== Navbar ===== */
+.navbar{position:sticky;top:46px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg);z-index:40;border-top:none !important;border-bottom:none !important}
+.brand a{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav{display:flex;gap:14px;flex-wrap:wrap;max-width:100%}
+.nav-link{color:var(--text);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:500;font-size:clamp(12px, 3.3vw, 15px);line-height:1;transition:all .18s;white-space:nowrap}
+.nav-link:hover{color:var(--accent);background:rgba(99,102,241,.10)}
+.nav{overflow:hidden}
+
+/* ===== Desktop/Tablet Search (плавающий) ===== */
+.search-bar{position:fixed;top:64px;left:50%;transform:translateX(-50%);width:min(680px,92%);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);z-index:999;backdrop-filter:var(--glass-blur)}
+.hidden{display:none !important}
+.search-input{flex:1;border:none;background:transparent;color:var(--text);font-size:16px;padding:10px 8px}
+.search-ico-btn{background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.search-ico-btn img{width:22px;height:22px;opacity:.9}
+
+/* ===== Mobile search (сверху, под navbar) ===== */
+.mobile-search{position:sticky;top:0;z-index:998;padding:10px 14px 6px;background:linear-gradient(to bottom, var(--bg) 70%, transparent);display:none}
+.mobile-search .search-box{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--surface-strong);backdrop-filter:var(--glass-blur)}
+.mobile-search input{flex:1;border:none;background:transparent;color:var(--text);font-size:15px;padding:6px 4px}
+.mobile-search button{background:transparent;border:0;cursor:pointer}
+.mobile-search img{width:22px;height:22px;opacity:.9}
+
+/* ===== Заголовок и контейнер ===== */
+.page-header{margin-top:var(--top-offset);text-align:center}
+.page-header h1{margin:0;font-size:clamp(20px,4.2vw,28px);font-weight:700;font-family:"Poiret One",cursive}
+.page-header p{margin:6px 0 0;color:var(--muted)}
+
+/* ===== Контент ===== */
+.content-wrap{max-width:1600px;margin:20px auto;padding:0 16px}
+@media (min-width: 1401px){
+  .page-header, .content-wrap{
+    padding-left: calc(var(--side-w) + var(--side-gap) + 16px);
+    padding-right: calc(var(--side-w) + var(--side-gap) + 16px);
+  }
+}
+
+/* ===== Сетка карточек под 4K ===== */
+.movie-grid{
+  display:grid;gap:22px;margin-top:16px;margin-bottom:120px;justify-content:center;
+  grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+}
+@media (min-width: 2000px){ .movie-grid{ gap:26px; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); } }
+@media (max-width: 1200px){ .movie-grid{ grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); } }
+@media (max-width: 760px){ .movie-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; } }
+
+.movie-card{position:relative;border-radius:0px;background:transparent;padding:0;text-align:center;box-shadow:none;transition:transform .2s, box-shadow .2s;overflow:hidden;text-decoration:none;color:inherit}
+.movie-card:hover{transform:translateY(-2px)}
+.movie-card .poster{aspect-ratio:3/4;width:100%;border-radius:0px;box-shadow:0 14px 34px rgba(0,0,0,.35);object-fit:cover;display:block}
+.movie-info{padding:10px 6px}
+.movie-info h3{margin:0;font-size:1.05rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ===== Боковые видео (ПК) ===== */
+.side-video{
+  position:fixed; top:var(--top-offset); bottom:0;
+  width:var(--side-w); border-radius:0px; overflow:hidden;
+  box-shadow:0 18px 48px rgba(0,0,0,.35); z-index:5; pointer-events:none;
+  opacity:var(--side-opacity);
+  transform:translateY(calc(var(--parallax, 0px)));
+}
+.side-video.left{ left:var(--side-gap); }
+.side-video.right{ right:var(--side-gap); }
+.side-video video{width:100%; height:100%; object-fit:cover; filter:saturate(105%) contrast(105%); display:block}
+
+@media (min-width:1800px){ :root{ --side-w: 380px; } }
+@media (min-width:2300px){ :root{ --side-w: 420px; } }
+@media (max-width:1400px){ .side-video{ display:none; } }
+
+/* ===== Bottom bar (мобилки) ===== */
+.mobile-bottom{position:fixed;left:0;right:0;bottom:0;padding:8px 14px 10px;z-index:999;display:none}
+.mobile-bottom .bar{display:flex;align-items:center;justify-content:space-around;border:1px solid var(--line);border-radius:16px;background:var(--surface-strong);backdrop-filter:var(--glass-blur);padding:10px}
+.mobile-bottom .bar button{background:transparent;border:0;cursor:pointer;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.mobile-bottom .bar img{width:22px;height:22px;border-radius:6px;object-fit:cover}
+body.theme-light .mobile-bottom .bar img{ filter:none; }
+
+/* ===== Responsive переключения ===== */
+@media (max-width: 768px){
+  .top-bar .left-controls,.top-bar .right-controls{ display:none; }
+  .mobile-search{ display:block; }
+  .mobile-bottom{ display:block; }
+  .navbar{ top:0; }
+}
+
+html, body, .top-bar, .navbar, .mobile-search { background: var(--bg) !important; }
+</style>
+</head>
+<body class="theme-dark" data-lang="en">
+
+<!-- Top bar -->
+<div class="top-bar">
+  <div class="left-controls">
+    <button id="themeToggle" class="icon-btn" title="Toggle theme">
+      <img id="themeIcon" src="img/light.png" alt="theme">
+    </button>
+
+    <select id="langSelect" aria-label="Language">
+      <option value="en">EN</option><option value="ua">UA</option><option value="de">DE</option>
+    </select>
+  </div>
+
+  <div class="right-controls">
+    <button class="icon-btn" id="searchBtn" aria-label="Search">
+      <img id="searchBtnIcon" src="img/search-icon-white.png" alt="search">
+    </button>
+    <button class="icon-btn" id="savedBtn" aria-label="Saved">
+      <img id="savedIcon" src="img/bookmark_white.png" alt="saved">
+    </button>
+
+    <!-- аватар -->
+    <button id="topAvatarBtn" class="icon-btn" aria-label="Profile">
+      <span class="avatar-circle-glow"><img id="topAvatarImg" src="img/user-profile.png" alt="avatar"></span>
+    </button>
+  </div>
+</div>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="brand">
+    <a href="index.html">
+      <img id="logoImg" src="img/animy_white.png" style="height:42px;" alt="AniMy">
+    </a>
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="nav-link" data-i18n="home">Home</a>
+    <a href="movie.html" class="nav-link" data-i18n="movies">Movies</a>
+    <a href="anime.html" class="nav-link" data-i18n="anime">Anime</a>
+    <a href="trends.html" class="nav-link" data-i18n="trends">Trends</a>
+  </nav>
+</header>
+
+<!-- Mobile search -->
+<div class="mobile-search">
+  <div class="search-box">
+    <input id="mSearchInput" type="text" data-i18n-placeholder="phSearch" placeholder="Search movies..." />
+    <button id="mSearchGo" aria-label="Search">
+      <img id="mSearchIcon" src="img/search-icon-white.png" alt="go">
+    </button>
+  </div>
+</div>
+
+<!-- Desktop/Tablet search -->
+<div id="searchBar" class="search-bar hidden">
+  <input type="text" id="searchInput" class="search-input" data-i18n-placeholder="phSearch" placeholder="Search movies..." />
+  <button id="searchGo" class="search-ico-btn" aria-label="Search">
+    <img id="searchIcon" src="img/search-icon-white.png" alt="search">
+  </button>
+</div>
+
+<!-- Side videos -->
+<div class="side-video left" aria-hidden="true"><video id="leftVid" autoplay loop muted playsinline></video></div>
+<div class="side-video right" aria-hidden="true"><video id="rightVid" autoplay loop muted playsinline></video></div>
+
+<!-- Header + Grid -->
+<div class="page-header">
+  <h1 data-i18n="headerMoviesCollection">Movies Collection</h1>
+  <p data-i18n="hint">Tap a movie to open its page</p>
+</div>
+<div class="content-wrap">
+  <div id="movieGrid" class="movie-grid" aria-live="polite"></div>
+</div>
+
+<!-- Mobile bottom bar with avatar -->
+<div class="mobile-bottom">
+  <div class="bar">
+    <button id="mbTheme" title="Theme"><img id="mbThemeIcon" src="img/light.png" alt="theme"></button>
+    <button id="mbLang" title="Language"><img id="mbLangIcon" src="img/translation_white.png" alt="lang"></button>
+    <button id="mbSaved" title="Saved"><img id="mbSavedIcon" src="img/bookmark_white.png" alt="saved"></button>
+
+    <button id="mbProfile" title="Profile" aria-label="Profile" style="background:transparent;border:0;padding:0;">
+      <span class="avatar-circle-glow" style="width:36px;height:36px;">
+        <img id="mbAvatarImg" src="img/user-profile.png" alt="avatar">
+      </span>
+    </button>
+  </div>
+</div>
+
+<script type="module">
+/* ===== Firebase ===== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB7wYyFG1KNlVl8bW-3pn0U5fgHXktCGic",
+  authDomain: "animy-ae6fa.firebaseapp.com",
+  projectId: "animy-ae6fa",
+  storageBucket: "animy-ae6fa.firebasestorage.app",
+  messagingSenderId: "795248580471",
+  appId: "1:795248580471:web:c821c22700a045bbb53372",
+  measurementId: "G-TFM93P4HRE"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+/* ===== Translations ===== */
+const t = {
+  en:{home:"Home",movies:"Movies",anime:"Anime",trends:"Trends",headerMoviesCollection:"Movies Collection",hint:"Tap a movie to open its page",phSearch:"Search movies..."},
+  ua:{home:"Головна",movies:"Фільми",anime:"Аніме",trends:"Тренди",headerMoviesCollection:"Колекція Фільмів",hint:"Натисни на фільм, щоб відкрити сторінку",phSearch:"Пошук фільмів..."},
+  de:{home:"Startseite",movies:"Filme",anime:"Anime",trends:"Trends",headerMoviesCollection:"Film-Sammlung",hint:"Tippe auf einen Film, um die Seite zu öffnen",phSearch:"Filme suchen..."}
+};
+/* названия для карточек (ключ — file) */
+const movieTranslations = {
+  en:{ "new4":{title:"A Silent Voice"}, "new6":{title:"Spirited Away"}, "new3":{title:"Your Name"} },
+  ua:{ "new4":{title:"Форма голосу"},  "new6":{title:"Віднесені привидами"}, "new3":{title:"Твоє ім'я"} },
+  de:{ "new4":{title:"A Silent Voice"}, "new6":{title:"Chihiros Reise ins Zauberland"}, "new3":{title:"Your Name"} }
+};
+
+/* ===== Catalog (имя -> файл/ссылка) ===== */
+const SITE_CATALOG={
+  "A Silent Voice":{file:"new4",link:"silent-voice.html"},
+  "Spirited Away":{file:"new6",link:"spirited-away.html"},
+  "Your Name":{file:"new3",link:"your-name.html"}
+};
+const GRID_FILES = Object.values(SITE_CATALOG).map(v=>v.file);
+
+/* ===== Icons / Logo ===== */
+const ICONS = {
+  dark: { search:'img/search-icon-white.png', saved:'img/bookmark_white.png', translation:'img/translation_white.png' },
+  light:{ search:'img/search-icon.png',        saved:'img/bookmark.png',        translation:'img/translation.png' }
+};
+const logoWhite='img/animy_white.png', logoDark='img/animy.png';
+
+/* ===== DOM ===== */
+const logoImg=document.getElementById("logoImg");
+const themeToggleBtn=document.getElementById("themeToggle");
+const themeIconEl=document.getElementById("themeIcon");
+const searchBtnIcon=document.getElementById("searchBtnIcon");
+const savedIconEl=document.getElementById("savedIcon");
+const mSearchIcon=document.getElementById("mSearchIcon");
+const searchIcon=document.getElementById("searchIcon");
+const langSelect=document.getElementById("langSelect");
+
+const movieGridEl=document.getElementById("movieGrid");
+
+const searchBar=document.getElementById("searchBar");
+const searchBtn=document.getElementById("searchBtn");
+const searchInput=document.getElementById("searchInput");
+const searchGo=document.getElementById("searchGo");
+const mSearchInput=document.getElementById("mSearchInput");
+const mSearchGo=document.getElementById("mSearchGo");
+
+/* Avatars (top + bottom) */
+const topAvatarBtn=document.getElementById("topAvatarBtn");
+const topAvatarImg=document.getElementById("topAvatarImg");
+const mbProfile=document.getElementById("mbProfile");
+const mbAvatarImg=document.getElementById("mbAvatarImg");
+
+/* Mobile bottom icons */
+const mbTheme=document.getElementById('mbTheme');
+const mbThemeIcon=document.getElementById('mbThemeIcon');
+const mbLang=document.getElementById('mbLang');
+const mbLangIcon=document.getElementById('mbLangIcon');
+const mbSaved=document.getElementById('mbSaved');
+const mbSavedIcon=document.getElementById('mbSavedIcon');
+
+/* ===== Local profile ===== */
+let profileData=JSON.parse(localStorage.getItem("profileData")||"{}");
+
+/* ===== Helpers: theme/lang/avatar ===== */
+function applyLang(lang){
+  if(!t[lang]) lang='en';
+  document.documentElement.lang=lang;
+  document.body.dataset.lang=lang;
+  localStorage.setItem("lang",lang);
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key=el.getAttribute("data-i18n");
+    if(t[lang][key]) el.textContent=t[lang][key];
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
+    const key=el.getAttribute("data-i18n-placeholder");
+    if(t[lang][key]) el.placeholder=t[lang][key];
+  });
+
+  // обновим подписи карточек
+  document.querySelectorAll("[data-file]").forEach(card=>{
+    const file=card.getAttribute("data-file");
+    const titleEl=card.querySelector(".movie-info h3");
+    const trans=movieTranslations[lang]?.[file] || movieTranslations.en?.[file];
+    if(titleEl && trans?.title) titleEl.textContent=trans.title;
+  });
+}
+function applyTheme(theme){
+  const body=document.body;
+  body.classList.remove("theme-dark","theme-light");
+  body.classList.add("theme-"+theme);
+  localStorage.setItem("theme",theme);
+
+  const isDark = theme === "dark";
+  themeIconEl.src   = isDark ? "img/light.png" : "img/moon.png";
+  searchBtnIcon.src = isDark ? ICONS.dark.search : ICONS.light.search;
+  searchIcon.src    = isDark ? ICONS.dark.search : ICONS.light.search;
+  mSearchIcon.src   = isDark ? ICONS.dark.search : ICONS.light.search;
+  savedIconEl.src   = isDark ? ICONS.dark.saved  : ICONS.light.saved;
+  mbThemeIcon.src   = isDark ? "img/light.png"   : "img/moon.png";
+  mbSavedIcon.src   = isDark ? ICONS.dark.saved  : ICONS.light.saved;
+  mbLangIcon.src    = isDark ? ICONS.dark.translation : ICONS.light.translation;
+  logoImg.src       = isDark ? logoWhite : logoDark;
+
+  updateAvatarImgs();
+}
+function isDefaultAvatar(src){
+  if (!src) return true;
+  try { const path = (new URL(src, location.href)).pathname; return /\/img\/user-profile(\_white)?\.png$/i.test(path); }
+  catch { return /img\/user-profile(\_white)?\.png$/i.test(src); }
+}
+function updateAvatarImgs(){
+  const photo = (profileData && profileData.avatar && !isDefaultAvatar(profileData.avatar))
+              ? profileData.avatar
+              : "img/user-profile.png";
+  topAvatarImg.src = photo;
+  mbAvatarImg.src  = photo;
+}
+
+/* ===== Build grid ===== */
+function buildGrid(){
+  movieGridEl.innerHTML="";
+  const lang = document.body.dataset.lang || "en";
+
+  // Сортировка по названию на выбранном языке
+  const files = GRID_FILES.slice().sort((a,b)=>{
+    const ta = (movieTranslations[lang]?.[a]?.title || movieTranslations.en?.[a]?.title || a).toLowerCase();
+    const tb = (movieTranslations[lang]?.[b]?.title || movieTranslations.en?.[b]?.title || b).toLowerCase();
+    return ta.localeCompare(tb);
+  });
+
+  for(const file of files){
+    const name = Object.keys(SITE_CATALOG).find(n=>SITE_CATALOG[n].file===file);
+    const link = name ? SITE_CATALOG[name].link : "#";
+    const title = (movieTranslations[lang]?.[file]?.title) || (movieTranslations.en?.[file]?.title) || (name || "Movie");
+
+    const card = document.createElement("a");
+    card.href = link;
+    card.className = "movie-card";
+    card.setAttribute("data-file", file);
+    card.setAttribute("aria-label", title);
+    card.innerHTML = `
+      <img class="poster" src="img/${file}.jpg" alt="${title}">
+      <div class="movie-info"><h3>${title}</h3></div>
+    `;
+    movieGridEl.appendChild(card);
+  }
+}
+
+/* ===== Search (фильтрация по 3 языкам) ===== */
+function filterGrid(query){
+  const q = (query||"").trim().toLowerCase();
+  const langKeys = ["en","ua","de"];
+  document.querySelectorAll(".movie-card").forEach(card=>{
+    const file = card.getAttribute("data-file");
+    const titles = langKeys.map(l=>movieTranslations[l]?.[file]?.title?.toLowerCase()||"");
+    const match = titles.some(ti=>ti.includes(q));
+    card.style.display = match ? "" : "none";
+  });
+}
+
+/* ===== Навигация и UI события ===== */
+document.getElementById("savedBtn")?.addEventListener("click",()=> location.href='saved.html');
+
+searchBtn?.addEventListener("click", ()=>{
+  searchBar.classList.toggle("hidden");
+  if(!searchBar.classList.contains("hidden")) searchInput.focus();
+});
+searchGo?.addEventListener("click", ()=> filterGrid(searchInput.value));
+searchInput?.addEventListener("input", (e)=> filterGrid(e.target.value));
+searchInput?.addEventListener("keydown",(e)=>{ if(e.key==='Enter') filterGrid(searchInput.value); });
+
+mSearchGo?.addEventListener("click", ()=> filterGrid(mSearchInput.value));
+mSearchInput?.addEventListener("input",(e)=> filterGrid(e.target.value));
+mSearchInput?.addEventListener("keydown",(e)=>{ if(e.key==='Enter') filterGrid(mSearchInput.value); });
+
+/* Theme/Lang init */
+const savedTheme=localStorage.getItem("theme")||"dark";
+applyTheme(savedTheme);
+const savedLang=localStorage.getItem("lang")||"en";
+applyLang(savedLang);
+langSelect.value=savedLang;
+
+themeToggleBtn?.addEventListener("click",()=>{
+  const cur=document.body.classList.contains("theme-dark")?"dark":"light";
+  applyTheme(cur==="dark"?"light":"dark");
+});
+langSelect?.addEventListener("change",(e)=> {
+  applyLang(e.target.value);
+  buildGrid();
+  filterGrid((searchInput?.value||"") || (mSearchInput?.value||""));
+});
+
+/* Bottom quick actions */
+mbTheme?.addEventListener('click', ()=>{
+  const cur=document.body.classList.contains("theme-dark")?"dark":"light";
+  applyTheme(cur==="dark"?"light":"dark");
+});
+mbLang?.addEventListener('click', ()=>{
+  const order=['en','ua','de'];
+  const cur=localStorage.getItem('lang')||'en';
+  const idx=(order.indexOf(cur)+1)%order.length;
+  applyLang(order[idx]);
+  langSelect.value=order[idx];
+  buildGrid();
+  filterGrid((searchInput?.value||"") || (mSearchInput?.value||""));
+});
+mbSaved?.addEventListener('click', ()=> location.href='saved.html');
+
+topAvatarBtn.addEventListener('click', ()=> location.href='profile.html');
+mbProfile.addEventListener('click', ()=> location.href='profile.html');
+
+/* ===== Боковые видео: рандом + параллакс ===== */
+const sideLeft = document.getElementById('leftVid');
+const sideRight = document.getElementById('rightVid');
+const poolNames = [ 'silent-voice','spirited-away','your-name' ];
+function pickTwoDistinct(arr){
+  const a = Math.floor(Math.random()*arr.length);
+  let b = Math.floor(Math.random()*arr.length);
+  if(b===a) b = (b+1)%arr.length;
+  return [arr[a], arr[b]];
+}
+(function setRandomVideos(){
+  const [L,R] = pickTwoDistinct(poolNames);
+  if(sideLeft)  sideLeft.src  = `vid/${encodeURIComponent(L)}.mp4`;
+  if(sideRight) sideRight.src = `vid/${encodeURIComponent(R)}.mp4`;
+})();
+function onScrollParallax(){
+  const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+  const offset = Math.round(y * 0.08);
+  const svL = document.querySelector('.side-video.left');
+  const svR = document.querySelector('.side-video.right');
+  if(svL) svL.style.setProperty('--parallax', offset+'px');
+  if(svR) svR.style.setProperty('--parallax', offset+'px');
+}
+window.addEventListener('scroll', onScrollParallax, {passive:true});
+onScrollParallax();
+
+/* ===== Auth: подтянуть профиль для аватара ===== */
+async function syncProfileDataFromCloud(user){
+  if(!user) return;
+  const ref=doc(db,"users",user.uid);
+  const snap=await getDoc(ref);
+  if(snap.exists()){
+    const data=snap.data()||{};
+    if(data.profileData){
+      profileData = data.profileData;
+      localStorage.setItem("profileData", JSON.stringify(profileData));
+    }
+  }
+}
+onAuthStateChanged(auth, async (user)=>{
+  await syncProfileDataFromCloud(user);
+  updateAvatarImgs();
+});
+
+/* ===== Start ===== */
+buildGrid();
+filterGrid("");
+</script>
+</body>
+</html>

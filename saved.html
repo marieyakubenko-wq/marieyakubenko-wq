@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AniMy - Saved</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+<link rel="manifest" href="img/site.webmanifest">
+<link rel="icon" href="img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poiret+One&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+  --bg:#ffffff; --text:#090a0c; --muted:#6e6e79; --card:#f6f7fb; --line:rgba(15,17,22,.08);
+  --shadow:0 12px 28px rgba(15,17,22,.06); --accent:#6c5ce7; --accent-2:#a78bfa; --accent-3:#22d3ee; --danger:#ef4444;
+  --ring: rgba(108,92,231,.35); --surface: rgba(10,12,16,.12); --surface-strong: rgba(10,12,16,.18);
+  --glass-blur: saturate(140%) blur(10px);
+
+  --top-offset: 96px;
+
+  /* боковые видео */
+  --side-w: 320px;
+  --side-gap: 18px;
+  --side-opacity: .28; /* прозрачность боковых видео */
+}
+body.theme-dark{
+  --bg:#000000; --text:#f5f7fb; --muted:#b7bbca; --card:#161923; --line:rgba(255,255,255,.08);
+  --shadow:0 14px 36px rgba(0,0,0,.35); --accent:#a78bfa; --accent-2:#c4b5fd; --accent-3:#22d3ee; --danger:#f87171;
+  --ring: rgba(167,139,253,.35); --surface: rgba(255,255,255,.08); --surface-strong: rgba(255,255,255,.14);
+
+  --side-opacity: .32; /* немного менее прозрачно в тёмной теме */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;font-size:16px;line-height:1.65;background:var(--bg);color:var(--text);transition:background .18s,color .18s;width:100%;overflow-x:hidden;font-weight:400}
+img{max-width:100%;display:block}
+button{font-family:inherit}
+
+/* ===== Top Bar ===== */
+.top-bar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;gap:12px;background:var(--bg);border-bottom:0 !important;z-index:999;backdrop-filter:saturate(180%) blur(6px)}
+.left-controls,.right-controls{display:flex;align-items:center;gap:10px;}
+.icon-btn{background:transparent;border:0;padding:6px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s, background .12s, box-shadow .12s}
+.icon-btn:active{transform:scale(.96)}
+.icon-btn:focus-visible{outline:2px solid var(--ring); outline-offset:2px; border-radius:12px;}
+.icon-btn img{width:26px;height:26px;object-fit:contain}
+#langSelect{background:transparent;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:6px 10px;font-size:14px;transition:border .18s}
+
+/* ===== Avatar (top + mobile bottom) ===== */
+.avatar-circle-glow{
+  width:36px;height:36px;border-radius:999px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 2px rgba(167,139,253,.55), 0 0 12px 3px rgba(167,139,253,.25);
+}
+.avatar-circle-glow img{width:100%;height:100%;object-fit:cover;border-radius:999px;display:block}
+
+/* ===== Navbar ===== */
+.navbar{position:sticky;top:46px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg);z-index:40;border-top:none !important;border-bottom:none !important}
+.brand a{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav{display:flex;gap:14px;flex-wrap:wrap;max-width:100%}
+.nav-link{color:var(--text);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:500;font-size:clamp(12px, 3.3vw, 15px);line-height:1;transition:all .18s;white-space:nowrap}
+.nav-link:hover{color:var(--accent);background:rgba(99,102,241,.10)}
+.nav{overflow:hidden}
+
+/* ===== Desktop/Tablet Search ===== */
+.search-bar{position:fixed;top:64px;left:50%;transform:translateX(-50%);width:min(680px,92%);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);z-index:999;backdrop-filter:var(--glass-blur)}
+.hidden{display:none !important}
+.search-input{flex:1;border:none;background:transparent;color:var(--text);font-size:16px;padding:10px 8px}
+.search-ico-btn{background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.search-ico-btn img{width:22px;height:22px;opacity:.9}
+
+/* ===== Mobile search ===== */
+.mobile-search{position:sticky;top:0;z-index:998;padding:10px 14px 6px;background:linear-gradient(to bottom, var(--bg) 70%, transparent);display:none}
+.mobile-search .search-box{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--surface-strong);backdrop-filter:var(--glass-blur)}
+.mobile-search input{flex:1;border:none;background:transparent;color:var(--text);font-size:15px;padding:6px 4px}
+.mobile-search button{background:transparent;border:0;cursor:pointer}
+.mobile-search img{width:22px;height:22px;opacity:.9}
+
+/* ===== Header ===== */
+.page-header{margin-top:var(--top-offset);text-align:center}
+.page-header h1{margin:0;font-size:clamp(20px,4.2vw,28px);font-weight:700;font-family:"Poiret One",cursive}
+.page-header p{margin:6px 0 0;color:var(--muted)}
+
+/* ===== Content container ===== */
+.list-container{max-width:1600px;margin:20px auto;padding:0 16px}
+
+/* если боковые видео видны — добавим поля, чтобы сетка не наезжала */
+@media (min-width: 1401px){
+  .page-header, .list-container{
+    padding-left: calc(var(--side-w) + var(--side-gap) + 16px);
+    padding-right: calc(var(--side-w) + var(--side-gap) + 16px);
+  }
+}
+
+/* ===== Big poster grid tuned for 4K ===== */
+.big-grid{
+  display:grid;gap:22px;margin-top:16px;margin-bottom:120px;justify-content:center;
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+}
+@media (min-width: 2000px){ .big-grid{ gap:26px; } }
+@media (max-width: 1200px){ .big-grid{ grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); } }
+@media (max-width: 760px){ .big-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; } }
+
+.big-card{position:relative;border-radius:14px;background:transparent;padding:0;text-align:center;box-shadow:none;transition:transform .2s, box-shadow .2s;overflow:hidden;touch-action:pan-y; user-select:none}
+.big-card:hover{transform:translateY(-2px)}
+.big-card a{display:block;position:relative;border-radius:12px;overflow:hidden;text-decoration:none;color:inherit}
+.big-card .poster{aspect-ratio:3/4;width:100%;border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.35);object-fit:cover;display:block}
+
+/* Swipe (mobile) — только влево удалить */
+.swipe-layer{position:absolute;inset:0;pointer-events:none;display:flex;justify-content:flex-end;align-items:center;padding:0 10px;opacity:0;transition:opacity .12s}
+.big-card.swiping .swipe-layer{opacity:1}
+.swipe-layer .icon-pill{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:999px;background:rgba(0,0,0,.35);backdrop-filter:var(--glass-blur);border:1px solid var(--line)}
+.swipe-layer .icon-pill img{width:22px;height:22px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+.big-card.swiping.glow-left{background:linear-gradient(90deg, transparent 40%, rgba(239,68,68,.25))}
+
+/* Desktop delete */
+.desktop-actions{position:absolute;left:8px;bottom:8px;display:flex;justify-content:flex-start;pointer-events:none}
+.action-btn{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--surface-strong);backdrop-filter:var(--glass-blur);display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto;transition:transform .12s, background .12s}
+.action-btn:hover{transform:scale(1.06); background:var(--surface)}
+.action-btn img{width:18px;height:18px;display:block}
+@media (max-width: 768px){ .desktop-actions{ display:none; } }
+
+/* ===== Side videos (desktop, long translucent) ===== */
+.side-video{
+  position:fixed; top:var(--top-offset); bottom:0;
+  width:var(--side-w); border-radius:16px; overflow:hidden;
+  box-shadow:0 18px 48px rgba(0,0,0,.35); z-index:5; pointer-events:none;
+  opacity:var(--side-opacity);
+  transform:translateY(calc(var(--parallax, 0px)));
+}
+.side-video.left{ left:var(--side-gap); }
+.side-video.right{ right:var(--side-gap); }
+.side-video video{width:100%; height:100%; object-fit:cover; filter:saturate(105%) contrast(105%); display:block}
+
+@media (min-width:1800px){ :root{ --side-w: 380px; } }
+@media (min-width:2300px){ :root{ --side-w: 420px; } }   /* 4K приятнее выглядит */
+@media (max-width:1400px){ .side-video{ display:none; } } /* скрыть на ноут/планшет */
+
+/* ===== Bottom bar (mobile) ===== */
+.mobile-bottom{position:fixed;left:0;right:0;bottom:0;padding:8px 14px 10px;z-index:999;display:none}
+.mobile-bottom .bar{display:flex;align-items:center;justify-content:space-around;border:1px solid var(--line);border-radius:16px;background:var(--surface-strong);backdrop-filter:var(--glass-blur);padding:10px}
+.mobile-bottom .bar button{background:transparent;border:0;cursor:pointer;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.mobile-bottom .bar img{width:22px;height:22px;border-radius:6px;object-fit:cover}
+
+/* на светлой теме — иконки «чёрные» */
+body.theme-light .mobile-bottom .bar img{ filter:none; }
+/* на тёмной теме пусть остаются белые (исходные файлы white) */
+
+/* ===== Responsive ===== */
+@media (max-width: 768px){
+  .top-bar .left-controls,.top-bar .right-controls{ display:none; }
+  .mobile-search{ display:block; }
+  .mobile-bottom{ display:block; }
+  .navbar{ top:0; }
+}
+
+html, body, .top-bar, .navbar, .mobile-search { background: var(--bg) !important; }
+</style>
+</head>
+<body class="theme-dark saved-page">
+
+<!-- Top bar -->
+<div class="top-bar">
+  <div class="left-controls">
+    <button id="themeToggle" class="icon-btn" title="Toggle theme">
+      <img id="themeIcon" src="img/light.png" alt="theme">
+    </button>
+
+    <select id="langSelect" aria-label="Language">
+      <option value="en">EN</option><option value="ua">UA</option><option value="de">DE</option>
+    </select>
+  </div>
+
+  <div class="right-controls">
+    <button class="icon-btn" id="searchBtn" aria-label="Search">
+      <img id="searchBtnIcon" src="img/search-icon-white.png" alt="search">
+    </button>
+    <button class="icon-btn" id="savedBtn" aria-label="Saved">
+      <img id="savedIcon" src="img/bookmark_white.png" alt="saved">
+    </button>
+
+    <!-- круглая аватарка с подсветкой -->
+    <button id="topAvatarBtn" class="icon-btn" aria-label="Profile">
+      <span class="avatar-circle-glow"><img id="topAvatarImg" src="img/user-profile.png" alt="avatar"></span>
+    </button>
+  </div>
+</div>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="brand">
+    <a href="index.html">
+      <img id="logoImg" src="img/animy_white.png" style="height:42px;" alt="AniMy">
+    </a>
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="nav-link" data-i18n="home">Home</a>
+    <a href="movie.html" class="nav-link" data-i18n="movies">Movies</a>
+    <a href="anime.html" class="nav-link" data-i18n="anime">Anime</a>
+    <a href="trends.html" class="nav-link" data-i18n="trends">Trends</a>
+  </nav>
+</header>
+
+<!-- Mobile search -->
+<div class="mobile-search">
+  <div class="search-box">
+    <input id="mSearchInput" type="text" data-i18n-placeholder="phSearch" placeholder="Search anime..." />
+    <button id="mSearchGo" aria-label="Search">
+      <img id="mSearchIcon" src="img/search-icon-white.png" alt="go">
+    </button>
+  </div>
+</div>
+
+<!-- Desktop/Tablet search -->
+<div id="searchBar" class="search-bar hidden">
+  <input type="text" id="searchInput" class="search-input" data-i18n-placeholder="phSearch" placeholder="Search anime..." />
+  <button id="searchGo" class="search-ico-btn" aria-label="Search">
+    <img id="searchIcon" src="img/search-icon-white.png" alt="search">
+  </button>
+</div>
+
+<!-- Side videos -->
+<div class="side-video left" aria-hidden="true"><video id="leftVid" autoplay loop muted playsinline></video></div>
+<div class="side-video right" aria-hidden="true"><video id="rightVid" autoplay loop muted playsinline></video></div>
+
+<!-- Center -->
+<div class="page-header">
+  <h1 data-i18n="savedTitle">Saved</h1>
+  <p id="savedCount" aria-live="polite"></p>
+</div>
+<div class="list-container">
+  <div id="bigGrid" class="big-grid"></div>
+</div>
+
+<!-- Mobile bottom bar with avatar -->
+<div class="mobile-bottom">
+  <div class="bar">
+    <button id="mbTheme" title="Theme"><img id="mbThemeIcon" src="img/light.png" alt="theme"></button>
+    <button id="mbLang" title="Language"><img id="mbLangIcon" src="img/translation_white.png" alt="lang"></button>
+    <button id="mbSaved" title="Saved"><img id="mbSavedIcon" src="img/bookmark_white.png" alt="saved"></button>
+
+    <!-- круглая аватарка и переход на профиль -->
+    <button id="mbProfile" title="Profile" aria-label="Profile" style="background:transparent;border:0;padding:0;">
+      <span class="avatar-circle-glow" style="width:36px;height:36px;">
+        <img id="mbAvatarImg" src="img/user-profile.png" alt="avatar">
+      </span>
+    </button>
+  </div>
+</div>
+
+<script type="module">
+/* ===== Firebase (как в profile.html) ===== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB7wYyFG1KNlVl8bW-3pn0U5fgHXktCGic",
+  authDomain: "animy-ae6fa.firebaseapp.com",
+  projectId: "animy-ae6fa",
+  storageBucket: "animy-ae6fa.firebasestorage.app",
+  messagingSenderId: "795248580471",
+  appId: "1:795248580471:web:c821c22700a045bbb53372",
+  measurementId: "G-TFM93P4HRE"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+/* ===== Translations ===== */
+const t = {
+  en:{home:"Home",movies:"Movies",anime:"Anime",trends:"Trends",savedTitle:"Saved",savedNone:"No saved anime yet.",savedCount:"{n} saved",phSearch:"Search anime..."},
+  ua:{home:"Головна",movies:"Фільми",anime:"Аніме",trends:"Тренди",savedTitle:"Збережені",savedNone:"Список порожній.",savedCount:"Збережено: {n}",phSearch:"Пошук аніме..."},
+  de:{home:"Startseite",movies:"Filme",anime:"Anime",trends:"Trends",savedTitle:"Gespeichert",savedNone:"Noch keine Einträge.",savedCount:"{n} gespeichert",phSearch:"Anime suchen..."}
+};
+
+/* ===== Icons ===== */
+const ICONS = {
+  dark: { search:'img/search-icon-white.png', saved:'img/bookmark_white.png', translation:'img/translation_white.png' },
+  light:{ search:'img/search-icon.png',        saved:'img/bookmark.png',        translation:'img/translation.png' }
+};
+const logoWhite='img/animy_white.png', logoDark='img/animy.png';
+
+/* ===== Catalog ===== */
+const SITE_CATALOG={
+  "Attack on Titan":{file:"new1",link:"attack-on-titan.html"},
+  "Bleach":{file:"anime8",link:"bleach.html"},
+  "Dandadan":{file:"anime4",link:"dandadan.html"},
+  "Evangelion":{file:"new5",link:"evangelion.html"},
+  "Gachiakuta":{file:"anime7",link:"gachiakuta.html"},
+  "Haikyu":{file:"new7",link:"haikyu.html"},
+  "Hanako Kun":{file:"new2",link:"hanako-kun.html"},
+  "Idol":{file:"new8",link:"idol.html"},
+  "Jujutsu Kaisen":{file:"anime2",link:"jujutsu-kaisen.html"},
+  "Kaiju No8":{file:"anime5",link:"kaiju-no-8.html"},
+  "Kimetsu no yaiba":{file:"anime6",link:"kimetsu-no-yaiba.html"},
+  "One Piece":{file:"anime1",link:"one-piece.html"},
+  "Silent Voice":{file:"new4",link:"silent-voice.html"},
+  "Spirited Away":{file:"new6",link:"spirited-away.html"},
+  "The Fragrant Flower":{file:"anime3",link:"the-fragrant-flower.html"},
+  "Your Name":{file:"new3",link:"your-name.html"}
+};
+const fileToName = Object.fromEntries(Object.entries(SITE_CATALOG).map(([n,v])=>[v.file,n]));
+
+/* ===== DOM ===== */
+const logoImg=document.getElementById("logoImg");
+const themeToggleBtn=document.getElementById("themeToggle");
+const themeIconEl=document.getElementById("themeIcon");
+const searchBtnIcon=document.getElementById("searchBtnIcon");
+const savedIconEl=document.getElementById("savedIcon");
+const mSearchIcon=document.getElementById("mSearchIcon");
+const searchIcon=document.getElementById("searchIcon");
+const langSelect=document.getElementById("langSelect");
+const bigGridEl=document.getElementById("bigGrid");
+const savedCountEl=document.getElementById("savedCount");
+const searchBar=document.getElementById("searchBar");
+const searchBtn=document.getElementById("searchBtn");
+const searchInput=document.getElementById("searchInput");
+const searchGo=document.getElementById("searchGo");
+const mSearchInput=document.getElementById("mSearchInput");
+const mSearchGo=document.getElementById("mSearchGo");
+
+/* Avatars (top + bottom) */
+const topAvatarBtn=document.getElementById("topAvatarBtn");
+const topAvatarImg=document.getElementById("topAvatarImg");
+const mbProfile=document.getElementById("mbProfile");
+const mbAvatarImg=document.getElementById("mbAvatarImg");
+
+/* Mobile bottom icons */
+const mbTheme=document.getElementById('mbTheme');
+const mbThemeIcon=document.getElementById('mbThemeIcon');
+const mbLang=document.getElementById('mbLang');
+const mbLangIcon=document.getElementById('mbLangIcon');
+const mbSaved=document.getElementById('mbSaved');
+const mbSavedIcon=document.getElementById('mbSavedIcon');
+
+/* ===== Data ===== */
+let profileData=JSON.parse(localStorage.getItem("profileData")||"{}");
+let animeData=JSON.parse(localStorage.getItem("animeData")||"{}");
+if(!animeData.watching) animeData={watching:[],liked:[],disliked:[]};
+
+/* ===== Lang ===== */
+function applyLang(lang){
+  if(!t[lang]) lang='en';
+  document.documentElement.lang=lang;
+  document.body.dataset.lang=lang;
+  localStorage.setItem("lang",lang);
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key=el.getAttribute("data-i18n");
+    if(t[lang][key]) el.textContent=t[lang][key];
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
+    const key=el.getAttribute("data-i18n-placeholder");
+    if(t[lang][key]) el.placeholder=t[lang][key];
+  });
+
+  renderList(); // обновить счетчик «n saved»
+}
+
+/* ===== Theme ===== */
+function currentTheme(){ return document.body.classList.contains('theme-dark') ? 'dark' : 'light'; }
+function applyTheme(theme){
+  const body=document.body;
+  body.classList.remove("theme-dark","theme-light");
+  body.classList.add("theme-"+theme);
+  localStorage.setItem("theme",theme);
+
+  const isDark = theme === "dark";
+  themeIconEl.src   = isDark ? "img/light.png" : "img/moon.png";
+  searchBtnIcon.src = isDark ? ICONS.dark.search : ICONS.light.search;
+  searchIcon.src    = isDark ? ICONS.dark.search : ICONS.light.search;
+  mSearchIcon.src   = isDark ? ICONS.dark.search : ICONS.light.search;
+  savedIconEl.src   = isDark ? ICONS.dark.saved  : ICONS.light.saved;
+  mbThemeIcon.src   = isDark ? "img/light.png"   : "img/moon.png";
+  mbSavedIcon.src   = isDark ? ICONS.dark.saved  : ICONS.light.saved;
+  mbLangIcon.src    = isDark ? ICONS.dark.translation : ICONS.light.translation;
+  logoImg.src       = isDark ? logoWhite : logoDark;
+
+  updateAvatarImgs(); // чтобы аватарка не «ломалась»
+}
+
+/* ===== Avatar helpers ===== */
+function isDefaultAvatar(src){
+  if (!src) return true;
+  try { const path = (new URL(src, location.href)).pathname; return /\/img\/user-profile(\_white)?\.png$/i.test(path); }
+  catch { return /img\/user-profile(\_white)?\.png$/i.test(src); }
+}
+function updateAvatarImgs(){
+  const photo = (profileData && profileData.avatar && !isDefaultAvatar(profileData.avatar))
+               ? profileData.avatar
+               : "img/user-profile.png"; // одинаковая в обеих темах, круг + подсветка делает остальное
+  topAvatarImg.src = photo;
+  mbAvatarImg.src  = photo;
+}
+
+/* ===== Saved lists (compat mode) ===== */
+function getSavedFromLegacy(){
+  const raw = localStorage.getItem("savedAnime");
+  const arr = raw ? JSON.parse(raw) : [];
+  // ожидается [{file,link,titles}, ...]
+  return Array.isArray(arr) ? arr : [];
+}
+function setSavedToLegacy(arrByFile){
+  localStorage.setItem("savedAnime", JSON.stringify(arrByFile));
+}
+function getSavedFromAnimeData(){
+  const names = (Array.isArray(animeData.saved) ? animeData.saved
+                 : Array.isArray(animeData.liked) ? animeData.liked : []);
+  // нормализуем в объекты из каталога
+  return names.map(name=>{
+    const info = SITE_CATALOG[name];
+    return info ? {file:info.file, link:info.link, titles:null, name} : null;
+  }).filter(Boolean);
+}
+function writeBackAnimeDataFromFiles(files){
+  // конвертируем файлы в имена (если возможно), сохраняем и в saved и в liked (для совместимости)
+  const names = files.map(f=>fileToName[f]).filter(Boolean);
+  animeData.saved = names.slice();
+  animeData.liked = names.slice();
+  localStorage.setItem("animeData", JSON.stringify(animeData));
+}
+
+/* ===== Unified list builder ===== */
+function buildUnifiedSaved(){
+  const legacy = getSavedFromLegacy();           // объекты с file/link/titles
+  const modern = getSavedFromAnimeData();        // объекты с file/link,name|null
+
+  // если есть legacy — он приоритетный (источник «раньше»), иначе modern
+  const list = legacy.length ? legacy : modern;
+
+  // чтобы не было дублей, приводим к уникальному по file
+  const seen = new Set();
+  const unique = [];
+  for(const it of list){
+    if(!it || !it.file) continue;
+    if(!seen.has(it.file)){ seen.add(it.file); unique.push(it); }
+  }
+  return unique;
+}
+
+/* ===== Remove item in both stores ===== */
+function removeSavedByFile(file){
+  // legacy
+  const legacy = getSavedFromLegacy();
+  const legacyFiltered = legacy.filter(x=>x.file!==file);
+  setSavedToLegacy(legacyFiltered);
+
+  // animeData
+  const name = fileToName[file];
+  if(name){
+    const savedArr = Array.isArray(animeData.saved) ? animeData.saved : [];
+    const likedArr = Array.isArray(animeData.liked) ? animeData.liked : [];
+    animeData.saved = savedArr.filter(n=>n!==name);
+    animeData.liked = likedArr.filter(n=>n!==name);
+    localStorage.setItem("animeData", JSON.stringify(animeData));
+  }
+}
+
+/* ===== Render ===== */
+function renderList(){
+  bigGridEl.innerHTML = "";
+  const lang = document.body.dataset.lang || "en";
+  const list = buildUnifiedSaved();
+
+  if(!list.length){
+    savedCountEl.textContent = t[lang].savedNone;
+    return;
+  }
+  savedCountEl.textContent = (t[lang].savedCount || "{n} saved").replace("{n}", list.length);
+
+  for(const it of list){
+    const title = it.titles?.[lang] || it.titles?.en || fileToName[it.file] || "Anime";
+    const link  = it.link || (fileToName[it.file] ? SITE_CATALOG[fileToName[it.file]].link : "#");
+    const posterSrc = `img/${it.file}.jpg`;
+
+    const card = document.createElement("div");
+    card.className = "big-card";
+    card.innerHTML = `
+      <a href="${link}">
+        <img class="poster" src="${posterSrc}" alt="${title}">
+      </a>
+    `;
+
+    // swipe (mobile) — удалить
+    attachSwipe(card, it.file);
+    // desktop — удалить
+    addDesktopDelete(card, it.file);
+
+    bigGridEl.appendChild(card);
+  }
+}
+
+/* ===== Swipe (mobile) ===== */
+function attachSwipe(card, file){
+  const content=card.querySelector('a');
+  const layer=document.createElement('div');
+  layer.className='swipe-layer';
+  layer.innerHTML=`<span class="icon-pill"><img src="img/remove_white.png" alt="remove"></span>`;
+  card.appendChild(layer);
+
+  let startX=0, curX=0, dragging=false, clickCanceled=false;
+  const threshold = 64, maxSlide  = 120, deadZone=8;
+
+  function setX(x){
+    content.style.transform=`translateX(${x}px)`;
+    content.style.transition='none';
+    if(x<0){ card.classList.add('glow-left'); } else { card.classList.remove('glow-left'); }
+  }
+  function onStart(e){
+    if(e.pointerType==='mouse') return;
+    dragging=true; clickCanceled=false;
+    startX=e.clientX; curX=0;
+    card.classList.add('swiping');
+    card.setPointerCapture?.(e.pointerId);
+  }
+  function onMove(e){
+    if(!dragging) return;
+    curX=e.clientX-startX;
+    if(Math.abs(curX)>deadZone) clickCanceled=true;
+    const tx=Math.max(-maxSlide, Math.min(0, curX));
+    setX(tx);
+  }
+  function onEnd(e){
+    if(!dragging) return;
+    dragging=false;
+    card.releasePointerCapture?.(e.pointerId);
+    if(curX < -threshold){
+      removeSavedByFile(file);
+      renderList();
+      return;
+    }
+    content.style.transition='transform .18s';
+    content.style.transform='translateX(0)';
+    card.classList.remove('swiping','glow-left');
+    setTimeout(()=>{ content.style.transition=''; }, 180);
+  }
+
+  content.addEventListener('click', (e)=>{ if(clickCanceled){ e.preventDefault(); e.stopImmediatePropagation(); } });
+  card.addEventListener('pointerdown', onStart);
+  card.addEventListener('pointermove', onMove);
+  card.addEventListener('pointerup', onEnd);
+  card.addEventListener('pointercancel', onEnd);
+  card.addEventListener('pointerleave', (e)=> dragging && onEnd(e));
+}
+
+/* ===== Desktop delete ===== */
+function addDesktopDelete(card, file){
+  const actions = document.createElement('div');
+  actions.className='desktop-actions';
+  actions.innerHTML = `<button class="action-btn remove" title="Remove"><img src="img/remove_white.png" alt="remove"></button>`;
+  card.appendChild(actions);
+  actions.querySelector('.remove').addEventListener('click', (e)=>{
+    e.preventDefault(); e.stopPropagation();
+    removeSavedByFile(file);
+    renderList();
+  });
+}
+
+/* ===== Search ===== */
+function findLinkByQuery(q){
+  const query=q.toLowerCase().trim();
+  for(const name in SITE_CATALOG){
+    if(name.toLowerCase().includes(query)) return SITE_CATALOG[name].link;
+  }
+  return null;
+}
+document.getElementById("savedBtn")?.addEventListener("click",()=> location.href='saved.html');
+document.getElementById("searchBtn")?.addEventListener("click",()=>{
+  searchBar.classList.toggle("hidden");
+  if(!searchBar.classList.contains("hidden")) searchInput.focus();
+});
+searchGo?.addEventListener('click', ()=>{
+  const link=findLinkByQuery(searchInput.value||'');
+  if(link) location.href=link; else alert('No anime found.');
+});
+searchInput?.addEventListener('keydown',(e)=>{
+  if(e.key==='Enter'){
+    const l=findLinkByQuery(searchInput.value||'');
+    if(l) location.href=l; else alert('No anime found.');
+  }
+});
+mSearchGo?.addEventListener('click', ()=>{
+  const link=findLinkByQuery(mSearchInput.value||'');
+  if(link) location.href=link; else alert('No anime found.');
+});
+mSearchInput?.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){
+    const l=findLinkByQuery(mSearchInput.value||'');
+    if(l) location.href=l; else alert('No anime found.');
+  }
+});
+
+/* ===== Theme/Lang init ===== */
+const savedTheme=localStorage.getItem("theme")||"dark";
+applyTheme(savedTheme);
+const savedLang=localStorage.getItem("lang")||"en";
+applyLang(savedLang);
+langSelect.value=savedLang;
+
+themeToggleBtn?.addEventListener("click",()=>{
+  const cur=document.body.classList.contains("theme-dark")?"dark":"light";
+  applyTheme(cur==="dark"?"light":"dark");
+});
+langSelect?.addEventListener("change",(e)=> applyLang(e.target.value));
+
+/* ===== Avatar wiring ===== */
+function syncProfileDataFromCloud(user){
+  // при входе — обновим профиль из облака, если есть
+  return (async ()=>{
+    if(!user) return;
+    const ref=doc(db,"users",user.uid);
+    const snap=await getDoc(ref);
+    if(snap.exists()){
+      const data=snap.data()||{};
+      if(data.profileData){ profileData = data.profileData; localStorage.setItem("profileData", JSON.stringify(profileData)); }
+      if(data.animeData){ animeData = data.animeData; localStorage.setItem("animeData", JSON.stringify(animeData)); }
+    }
+  })();
+}
+updateAvatarImgs();
+topAvatarBtn.addEventListener('click', ()=> location.href='profile.html');
+mbProfile.addEventListener('click', ()=> location.href='profile.html');
+
+/* ===== Mobile bottom quick actions ===== */
+mbTheme?.addEventListener('click', ()=>{
+  const cur=document.body.classList.contains("theme-dark")?"dark":"light";
+  applyTheme(cur==="dark"?"light":"dark");
+});
+mbLang?.addEventListener('click', ()=>{
+  const order=['en','ua','de'];
+  const cur=localStorage.getItem('lang')||'en';
+  const idx=(order.indexOf(cur)+1)%order.length;
+  applyLang(order[idx]);
+  langSelect.value=order[idx];
+});
+mbSaved?.addEventListener('click', ()=> location.href='saved.html');
+
+/* ===== Parallax side videos + random pick ===== */
+const sideLeft = document.getElementById('leftVid');
+const sideRight = document.getElementById('rightVid');
+const poolNames = [
+  'attack-on-titan','bleach','dandadan','evangelion','gachiakuta','haikyu!!',
+  'hanako-kun','idol','infinity-castle','jujutsukaisen','kaiju-no8','onepiece',
+  'silent-voice','spirited-away','thefragrantflower','your-name'
+];
+function pickTwoDistinct(arr){
+  const a = Math.floor(Math.random()*arr.length);
+  let b = Math.floor(Math.random()*arr.length);
+  if(b===a) b = (b+1)%arr.length;
+  return [arr[a], arr[b]];
+}
+(function setRandomVideos(){
+  const [L,R] = pickTwoDistinct(poolNames);
+  if(sideLeft)  sideLeft.src  = `vid/${encodeURIComponent(L)}.mp4`;
+  if(sideRight) sideRight.src = `vid/${encodeURIComponent(R)}.mp4`;
+})();
+function onScrollParallax(){
+  const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+  const offset = Math.round(y * 0.08);
+  const svL = document.querySelector('.side-video.left');
+  const svR = document.querySelector('.side-video.right');
+  if(svL) svL.style.setProperty('--parallax', offset+'px');
+  if(svR) svR.style.setProperty('--parallax', offset+'px');
+}
+window.addEventListener('scroll', onScrollParallax, {passive:true});
+onScrollParallax();
+
+/* ===== Auth ===== */
+onAuthStateChanged(auth, async (user)=>{
+  await syncProfileDataFromCloud(user);
+  updateAvatarImgs();
+  renderList();
+});
+</script>
+</body>
+</html>

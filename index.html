@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AniMy - Anime</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+<link rel="manifest" href="img/site.webmanifest">
+<link rel="icon" href="img/favicon.ico">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poiret+One&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+  --bg:#ffffff; --text:#000000; --muted:#6e6e79; --card:#f6f7fb; --line:rgba(15,17,22,.08);
+  --shadow:0 12px 28px rgba(15,17,22,.06);
+  --accent:#6c5ce7; --accent-2:#9797ff; --accent-3:#22d3ee; --danger:#ef4444;
+  --ring: rgba(108,92,231,.35);
+  --surface: rgba(10,12,16,.10); --surface-strong: rgba(10,12,16,.16);
+  --glass-blur: saturate(140%) blur(10px);
+}
+
+body.theme-dark{
+  --bg:#000000; --text:#f5f7fb; --muted:#b7bbca; --card:#161923; --line:rgba(255,255,255,.08);
+  --shadow:0 14px 36px rgba(0,0,0,.35);
+  --accent:#a78bfa; --accent-2:#c4b5fd; --accent-3:#22d3ee; --danger:#f87171;
+  --ring: rgba(167,139,253,.35);
+  --surface: rgba(255,255,255,.08); --surface-strong: rgba(255,255,255,.14);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;font-size:16px;line-height:1.65;background:var(--bg);color:var(--text);transition:background .18s,color .18s;width:100%;overflow-x:hidden}
+img{max-width:100%;display:block}
+button{font-family:inherit}
+
+/* ===== Top Bar (Desktop/Tablet) ===== */
+.top-bar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;gap:12px;background:var(--bg);border-bottom:0;z-index:999;backdrop-filter:saturate(180%) blur(6px)}
+.left-controls,.right-controls{display:flex;align-items:center;gap:10px;}
+.icon-btn{background:transparent;border:0;padding:6px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s, background .12s, box-shadow .12s}
+.icon-btn:active{transform:scale(.96)}
+.icon-btn:focus-visible{outline:2px solid var(--ring); outline-offset:2px; border-radius:12px;}
+.icon-btn img{width:26px;height:26px;object-fit:contain}
+#langSelect{background:transparent;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:6px 10px;font-size:14px;transition:border .18s}
+
+/* ===== Avatar (top + mobile bottom) — как в Movies ===== */
+.avatar-circle-glow{
+  width:36px;height:36px;border-radius:999px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 2px rgba(167,139,253,.55), 0 0 12px 3px rgba(167,139,253,.25);
+}
+.avatar-circle-glow img{width:100%;height:100%;object-fit:cover;border-radius:999px;display:block}
+
+/* ===== Navbar ===== */
+.navbar{position:sticky;top:56px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg);z-index:40;border-bottom:none}
+.brand a{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{height:42px}
+.nav{display:flex;gap:14px;flex-wrap:wrap;max-width:100%}
+.nav-link{color:var(--text);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:500;font-size:clamp(12px, 3.3vw, 15px);line-height:1;transition:all .18s;white-space:nowrap}
+.nav-link:hover{color:var(--accent);background:rgba(99,102,241,.10)}
+
+/* ===== Desktop/Tablet Search ===== */
+.search-bar{position:fixed;top:96px;left:50%;transform:translateX(-50%);width:min(680px,92%);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);z-index:999;backdrop-filter:var(--glass-blur)}
+.hidden{display:none !important}
+.search-input{flex:1;border:none;background:transparent;color:var(--text);font-size:16px;padding:10px 8px}
+.search-ico-btn{background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.search-ico-btn img{width:22px;height:22px;opacity:.9}
+
+/* ===== Mobile search (sticky) ===== */
+.mobile-search{position:sticky;top:0;z-index:998;padding:10px 14px 6px;background:linear-gradient(to bottom, var(--bg) 70%, transparent);display:none}
+.mobile-search .search-box{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:var(--surface-strong);backdrop-filter:var(--glass-blur)}
+.mobile-search input{flex:1;border:none;background:transparent;color:var(--text);font-size:15px;padding:6px 4px}
+.mobile-search button{background:transparent;border:0;cursor:pointer}
+.mobile-search img{width:22px;height:22px;opacity:.9}
+
+/* ===== Hero ===== */
+.hero{height:60vh;min-height:420px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-top:6px}
+.hero-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(.95)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(11,11,15,0.0) 0%, rgba(11,11,15,0.85) 75%)}
+
+/* ВАЖНО: контент слева */
+.hero-content{
+  position:relative;z-index:5;padding:32px;max-width:1100px;margin:0 auto;color:#fff;
+  text-align:left; display:flex; flex-direction:column; align-items:flex-start;
+  margin-left:clamp(12px, 5vw, 72px);
+}
+.hero-title{font-family:"Poiret One",cursive;font-size:48px;margin:0 0 8px;color:#fff}
+.hero-sub{margin:0 0 16px;color:#fff;font-size:.95rem}
+#watchNowBtn{margin-top:12px;padding:10px 18px;border-radius:10px;border:1px solid var(--line);background:rgba(125,0,255,0.18);color:#fff;font-family:inherit;font-size:1rem;cursor:pointer}
+
+/* ===== Releases slider ===== */
+.releases-container{position:relative;max-width:1200px;margin:28px auto 40px;overflow:hidden;display:flex;align-items:center;padding:0 16px}
+.grid-wrapper{overflow:hidden;flex:1}
+.grid{display:flex;gap:20px;transition:transform .5s ease}
+.card-wrapper{flex:0 0 260px;display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.card{flex:0 0 auto;aspect-ratio:8/10;border-radius:0px;overflow:hidden;cursor:pointer;position:relative;background:var(--card);box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease, opacity .3s ease}
+.card:hover img{transform:scale(1.05);opacity:.55}
+.card .overlay{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;text-align:center;color:#fff;background:rgba(0,0,0,.55);opacity:0;transition:opacity .3s ease;font-size:.9rem;padding:10px}
+.card:hover .overlay{opacity:1}
+.anime-title{text-align:center;font-size:.9rem;color:var(--muted);padding:0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slider-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;background:transparent;border:none;cursor:pointer;z-index:20;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .22s ease, transform .12s ease;padding:0}
+.releases-container:hover .slider-btn{opacity:1}
+.slider-btn img{width:22px;height:22px;object-fit:contain;opacity:.75;transition:opacity .18s ease, transform .12s ease;display:block}
+.slider-btn:hover img{opacity:1;transform:scale(1.08)}
+.slider-btn.prev{left:6px}
+.slider-btn.next{right:6px}
+
+/* ===== Footer ===== */
+.site-footer{padding:24px;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,0.02);font-size:.9rem;margin-bottom:80px}
+
+/* ===== Mobile Bottom Bar (как в Movies) ===== */
+.mobile-bottom{position:fixed;left:0;right:0;bottom:0;padding:8px 14px 10px;z-index:999;display:none}
+.mobile-bottom .bar{display:flex;align-items:center;justify-content:space-around;border:1px solid var(--line);border-radius:16px;background:var(--surface-strong);backdrop-filter:var(--glass-blur);padding:10px}
+.mobile-bottom .bar button{background:transparent;border:0;cursor:pointer;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.mobile-bottom .bar img{width:22px;height:22px;border-radius:6px;object-fit:cover}
+body.theme-light .mobile-bottom .bar img{filter:none}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px){
+  .hero-title{font-size:38px}
+}
+@media (max-width: 768px){
+  .top-bar .left-controls,.top-bar .right-controls{display:none;}
+  .navbar{top:0}
+  .mobile-search{display:block}
+  .mobile-bottom{display:block}         
+  .releases-container .slider-btn{display:none}
+  .grid-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .grid-wrapper::-webkit-scrollbar{display:none}
+  .site-footer{margin-bottom:110px}
+}
+
+html, body, .top-bar, .navbar, .mobile-search { background: var(--bg) !important; }
+</style>
+</head>
+
+<body class="theme-dark" data-lang="en">
+
+<!-- Top bar (Desktop/Tablet) -->
+<div class="top-bar" id="topBar">
+  <div class="left-controls">
+    <button id="themeToggle" class="icon-btn" title="Toggle theme">
+      <img id="themeIcon" src="img/light.png" alt="theme">
+    </button>
+    <select id="langSelect" aria-label="Language">
+      <option value="en">EN</option><option value="ua">UA</option><option value="de">DE</option>
+    </select>
+  </div>
+  <div class="right-controls">
+    <button class="icon-btn" id="searchBtn" aria-label="Search">
+      <img id="searchBtnIcon" src="img/search-icon-white.png" alt="search">
+    </button>
+    <button class="icon-btn" id="savedBtn" aria-label="Saved">
+      <img id="savedIcon" src="img/bookmark_white.png" alt="saved">
+    </button>
+    <!-- аватар -->
+    <button id="topAvatarBtn" class="icon-btn" aria-label="Profile">
+      <span class="avatar-circle-glow"><img id="topAvatarImg" src="img/user-profile.png" alt="avatar"></span>
+    </button>
+  </div>
+</div>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="brand">
+    <a href="index.html"><img id="logoImg" src="img/animy_white.png" alt="AniMy"></a>
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="nav-link" data-i18n="home">Home</a>
+    <a href="movie.html" class="nav-link" data-i18n="movies">Movies</a>
+    <a href="anime.html" class="nav-link" data-i18n="anime">Anime</a>
+    <a href="trends.html" class="nav-link" data-i18n="trends">Trends</a>
+  </nav>
+</header>
+
+<!-- Mobile search -->
+<div class="mobile-search">
+  <div class="search-box">
+    <input id="mSearchInput" type="text" data-i18n-placeholder="phSearch" placeholder="Search anime..." />
+    <button id="mSearchGo" aria-label="Search"><img id="mSearchIcon" src="img/search-icon-white.png" alt="go"></button>
+  </div>
+</div>
+
+<!-- Desktop/Tablet search -->
+<div id="searchBar" class="search-bar hidden">
+  <input type="text" id="searchInput" class="search-input" data-i18n-placeholder="phSearch" placeholder="Search anime..." />
+  <button id="searchGo" class="search-ico-btn" aria-label="Search"><img id="searchIcon" src="img/search-icon-white.png" alt="search"></button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-video">
+    <video id="heroVideo" autoplay muted loop playsinline poster="img/hero-poster.jpg">
+      <source id="heroSource" src="vid/idol.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-title" id="heroTitle">Idol</h1>
+    <p class="hero-sub" id="heroSub">Top picks — popular titles right now</p>
+    <button id="watchNowBtn">Watch now</button>
+  </div>
+</section>
+
+<!-- Releases sliders -->
+<div class="releases-container">
+  <button class="slider-btn prev" id="prevBtn1"><img src="img/left-arrow.png" alt="Prev"></button>
+  <div class="grid-wrapper"><div class="grid" id="cardGrid1"></div></div>
+  <button class="slider-btn next" id="nextBtn1"><img src="img/right-arrow.png" alt="Next"></button>
+</div>
+
+<div class="releases-container">
+  <button class="slider-btn prev" id="prevBtn2"><img src="img/left-arrow.png" alt="Prev"></button>
+  <div class="grid-wrapper"><div class="grid" id="cardGrid2"></div></div>
+  <button class="slider-btn next" id="nextBtn2"><img src="img/right-arrow.png" alt="Next"></button>
+</div>
+
+<footer class="site-footer">
+  <small>© <span id="copyrightYear"></span> AniMy. <span data-i18n="rights">All rights reserved.</span></small>
+</footer>
+
+<!-- Mobile bottom bar (как в Movies) -->
+<div class="mobile-bottom">
+  <div class="bar">
+    <button id="mbTheme" title="Theme"><img id="mbThemeIcon" src="img/light.png" alt="theme"></button>
+    <button id="mbLang" title="Language"><img id="mbLangIcon" src="img/translation_white.png" alt="lang"></button>
+    <button id="mbSaved" title="Saved"><img id="mbSavedIcon" src="img/bookmark_white.png" alt="saved"></button>
+    <button id="mbProfile" title="Profile" aria-label="Profile" style="background:transparent;border:0;padding:0;">
+      <span class="avatar-circle-glow" style="width:36px;height:36px;">
+        <img id="mbAvatarImg" src="img/user-profile.png" alt="avatar">
+      </span>
+    </button>
+  </div>
+</div>
+
+<!-- Firebase + Avatar logic как в Movies -->
+<script type="module">
+/* ===== Firebase (как в твоём Movies) ===== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB7wYyFG1KNlVl8bW-3pn0U5fgHXktCGic",
+  authDomain: "animy-ae6fa.firebaseapp.com",
+  projectId: "animy-ae6fa",
+  storageBucket: "animy-ae6fa.firebasestorage.app",
+  messagingSenderId: "795248580471",
+  appId: "1:795248580471:web:c821c22700a045bbb53372",
+  measurementId: "G-TFM93P4HRE"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+/* ===== Translations ===== */
+const translations = {
+  en:{home:"Home",movies:"Movies",anime:"Anime",trends:"Trends",rights:"All rights reserved.",phSearch:"Search anime..."},
+  ua:{home:"Головна",movies:"Фільми",anime:"Аніме",trends:"Тренди",rights:"Всі права захищені.",phSearch:"Пошук аніме..."},
+  de:{home:"Startseite",movies:"Filme",anime:"Anime",trends:"Trends",rights:"Alle Rechte vorbehalten.",phSearch:"Anime suchen..."}
+};
+
+const animeTranslations = {
+  en:{
+    "anime1":{title:"One Piece",desc:"A legendary pirate adventure in search of the greatest treasure, the One Piece."},
+    "anime2":{title:"Jujutsu Kaisen",desc:"Students of Jujutsu High fight curses and dark sorcery to protect humanity."},
+    "anime3":{title:"The Fragrant Flower",desc:"A romantic story about friendship, youth, and first love."},
+    "anime4":{title:"Dandadan",desc:"A crazy mix of comedy, action, aliens, and Japanese folklore."},
+    "anime5":{title:"Kaiju No.8",desc:"A man gains the power to turn into a kaiju to fight against giant monsters."},
+    "anime6":{title:"Kimetsu no Yaiba",desc:"Demon slayers protect people and fight for revenge against demons."},
+    "anime7":{title:"Gachiakuta",desc:"A gritty tale set in a world of trash, survival, and hidden justice."},
+    "anime8":{title:"Bleach",desc:"Ichigo Kurosaki gains the powers of a Soul Reaper to battle Hollows."},
+    "new1":{title:"Attack on Titan",desc:"Humanity struggles to survive inside walls while fighting terrifying Titans."},
+    "new2":{title:"Hanako Kun",desc:"A supernatural school mystery about a ghost haunting the girls' bathroom."},
+    "new3":{title:"Your Name",desc:"A touching drama about two teens mysteriously connected through body-swapping."},
+    "new4":{title:"Silent Voice",desc:"An emotional story about bullying, regret, and the search for forgiveness."},
+    "new5":{title:"Evangelion",desc:"Teenagers pilot giant mechs to protect Earth from mysterious Angels."},
+    "new6":{title:"Spirited Away",desc:"A young girl enters the world of spirits and must find her way back home."},
+    "new7":{title:"Haikyu!!",desc:"A sports anime about high school volleyball players chasing their dreams."},
+    "new8":{title:"Idol",desc:"A story about the glamorous yet harsh world of idols and show business."}
+  },
+  ua:{
+    "anime1":{title:"Ван Піс",desc:"Легендарна піратська пригода у пошуках найбільшого скарбу — Ван Піс."},
+    "anime2":{title:"Магічна Битва",desc:"Учні школи Джудзюцу борються з прокляттями та темною магією."},
+    "anime3":{title:"Ароматна квітка",desc:"Романтична історія про дружбу, молодість і перше кохання."},
+    "anime4":{title:"Дандадан",desc:"Божевільна суміш комедії, екшену, прибульців та японського фольклору."},
+    "anime5":{title:"Кайдзю №8",desc:"Чоловік отримує силу перетворюватися на кайдзю, щоб боротися з монстрами."},
+    "anime6":{title:"Клинок знищує демонів",desc:"Мисливці на демонів борються за людей і помсту."},
+    "anime7":{title:"Гачіакута",desc:"Містична історія у світі сміття, виживання і справедливості."},
+    "anime8":{title:"Бліч",desc:"Ічіго Куросакі отримує сили шінігамі, щоб боротися з Порожніми."},
+    "new1":{title:"Атака титанів",desc:"Людство бореться за виживання за стінами, протистоячи жахливим титанам."},
+    "new2":{title:"Ханако-кун",desc:"Надприродна шкільна містика про привида у жіночому туалеті."},
+    "new3":{title:"Твоє ім’я",desc:"Зворушлива драма про двох підлітків, яких пов’язує загадковий зв’язок."},
+    "new4":{title:"Форма голосу",desc:"Емоційна історія про булінг, каяття і пошук пробачення."},
+    "new5":{title:"Євангеліон",desc:"Підлітки керують гігантськими мехами, щоб захистити Землю від Ангелів."},
+    "new6":{title:"Унесені привидами",desc:"Дівчинка потрапляє у світ духів і мусить знайти шлях додому."},
+    "new7":{title:"Волейбол",desc:"Аніме про волейбол і дружбу школярів."},
+    "new8":{title:"Айдол",desc:"Історія про яскраве, але жорстке життя айдолів."}
+  },
+  de:{
+    "anime1":{title:"One Piece",desc:"Ein legendäres Piratenabenteuer auf der Suche nach dem größten Schatz, dem One Piece."},
+    "anime2":{title:"Jujutsu Kaisen",desc:"Schüler der Jujutsu-High kämpfen gegen Flüche und dunkle Magie."},
+    "anime3":{title:"Die duftende Blume",desc:"Eine romantische Geschichte über Freundschaft, Jugend und erste Liebe."},
+    "anime4":{title:"Dandadan",desc:"Eine verrückte Mischung aus Komödie, Action, Aliens und Folklore."},
+    "anime5":{title:"Kaiju Nr.8",desc:"Ein Mann erhält die Kraft, sich in ein Kaiju zu verwandeln."},
+    "anime6":{title:"Demon Slayer",desc:"Dämonenjäger beschützen Menschen und kämpfen für Rache."},
+    "anime7":{title:"Gachiakuta",desc:"Eine düstere Geschichte in einer Welt voller Müll und Gerechtigkeit."},
+    "anime8":{title:"Bleach",desc:"Ichigo Kurosaki erhält die Kräfte eines Shinigami."},
+    "new1":{title:"Attack on Titan",desc:"Die Menschheit kämpft innerhalb der Mauern gegen Titanen."},
+    "new2":{title:"Hanako Kun",desc:"Ein übernatürliches Schulgeheimnis im Mädchen-WC."},
+    "new3":{title:"Your Name",desc:"Zwei Teenager sind mysteriös verbunden."},
+    "new4":{title:"Silent Voice",desc:"Eine Geschichte über Mobbing, Reue und Vergebung."},
+    "new5":{title:"Evangelion",desc:"Teenager steuern Mechas gegen mysteriöse Engel."},
+    "new6":{title:"Chihiros Reise ins Zauberland",desc:"Ein Mädchen gerät in die Welt der Geister."},
+    "new7":{title:"Haikyu!!",desc:"Sport-Anime über Volleyballträume."},
+    "new8":{title:"Idol",desc:"Glamouröse, aber harte Welt der Idole."}
+  }
+};
+
+/* ===== Releases data ===== */
+const releases1 = [
+  { img:"img/anime1.jpg", title:"One Piece" },
+  { img:"img/anime2.jpg", title:"Jujutsu Kaisen" },
+  { img:"img/anime3.jpg", title:"The Fragrant Flower" },
+  { img:"img/anime4.jpg", title:"Dandadan" },
+  { img:"img/anime5.jpg", title:"Kaiju No.8" },
+  { img:"img/anime6.jpg", title:"Kimetsu no Yaiba" },
+  { img:"img/anime7.jpg", title:"Gachiakuta" },
+  { img:"img/anime8.jpg", title:"Bleach" }
+];
+const releases2 = [
+  { img:"img/new1.jpg", title:"Attack on Titan" },
+  { img:"img/new2.jpg", title:"Hanako Kun" },
+  { img:"img/new3.jpg", title:"Your Name" },
+  { img:"img/new4.jpg", title:"Silent Voice" },
+  { img:"img/new5.jpg", title:"Evangelion" },
+  { img:"img/new6.jpg", title:"Spirited Away" },
+  { img:"img/new7.jpg", title:"Haikyu!!" },
+  { img:"img/new8.jpg", title:"Idol" }
+];
+
+/* ===== Icons & logo sets ===== */
+const ICONS = {
+  dark: { search:'img/search-icon-white.png', saved:'img/bookmark_white.png', translation:'img/translation_white.png' },
+  light:{ search:'img/search-icon.png',  saved:'img/bookmark.png',        translation:'img/translation.png' }
+};
+const logoWhite='img/animy_white.png', logoDark='img/animy.png';
+
+/* ===== DOM ===== */
+const body = document.body;
+const logoImg = document.getElementById('logoImg');
+const themeToggleBtn = document.getElementById('themeToggle');
+const themeIconEl = document.getElementById('themeIcon');
+const searchBar = document.getElementById('searchBar');
+const searchBtn = document.getElementById('searchBtn');
+const searchBtnIcon = document.getElementById('searchBtnIcon');
+const searchInput = document.getElementById('searchInput');
+const searchGo = document.getElementById('searchGo');
+const searchIcon = document.getElementById('searchIcon');
+const mSearchInput = document.getElementById('mSearchInput');
+const mSearchGo = document.getElementById('mSearchGo');
+const mSearchIcon = document.getElementById('mSearchIcon');
+const savedBtn = document.getElementById('savedBtn');
+const savedIcon = document.getElementById('savedIcon');
+const langSelect = document.getElementById('langSelect');
+
+const topAvatarBtn = document.getElementById('topAvatarBtn');
+const topAvatarImg = document.getElementById('topAvatarImg');
+const mbProfile = document.getElementById('mbProfile');
+const mbAvatarImg = document.getElementById('mbAvatarImg');
+const mbTheme = document.getElementById('mbTheme');
+const mbThemeIcon = document.getElementById('mbThemeIcon');
+const mbLang = document.getElementById('mbLang');
+const mbLangIcon = document.getElementById('mbLangIcon');
+const mbSaved = document.getElementById('mbSaved');
+const mbSavedIcon = document.getElementById('mbSavedIcon');
+
+/* ===== Lang apply ===== */
+function applyLang(lang){
+  if(!translations[lang]) lang='en';
+  document.documentElement.lang = lang;
+  body.dataset.lang = lang;
+  localStorage.setItem('lang', lang);
+
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(translations[lang][key]) el.textContent = translations[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(translations[lang][key]) el.setAttribute('placeholder', translations[lang][key]);
+  });
+
+  // обновить тексты карточек
+  document.querySelectorAll('[data-anime]').forEach(el=>{
+    const key = el.getAttribute('data-anime');
+    const t = animeTranslations[lang][key];
+    if (t){
+      const titleEl = el.querySelector('.anime-title');
+      const descEl = el.querySelector('.overlay');
+      if (titleEl) titleEl.textContent = t.title;
+      if (descEl) descEl.textContent = t.desc;
+    }
+  });
+
+  // обновить тексты HERO
+  if (window.heroData?.length){
+    const i = window.currentHeroIndex || 0;
+    const item = window.heroData[i];
+    const titleEl = document.getElementById('heroTitle');
+    const subEl = document.getElementById('heroSub');
+    if (item && titleEl && subEl){
+      titleEl.textContent = item.title[lang] || item.title.en;
+      subEl.textContent = item.sub[lang] || item.sub.en;
+      updateWatchText(lang);
+    }
+  }
+}
+function updateWatchText(lang){
+  const btn = document.getElementById('watchNowBtn');
+  if (!btn) return;
+  if (lang==='ua') btn.textContent = 'Дивитись зараз';
+  else if (lang==='de') btn.textContent = 'Jetzt ansehen';
+  else btn.textContent = 'Watch now';
+}
+
+/* ===== Theme ===== */
+function applyTheme(theme){
+  body.classList.remove('theme-dark','theme-light');
+  body.classList.add('theme-'+theme);
+  localStorage.setItem('theme', theme);
+  const dark = theme === 'dark';
+  themeIconEl.src = dark ? 'img/light.png' : 'img/moon.png';
+  logoImg.src = dark ? logoWhite : logoDark;
+
+  searchBtnIcon.src = dark ? ICONS.dark.search : ICONS.light.search;
+  searchIcon.src = dark ? ICONS.dark.search : ICONS.light.search;
+  mSearchIcon.src = dark ? ICONS.dark.search : ICONS.light.search;
+  savedIcon.src = dark ? ICONS.dark.saved : ICONS.light.saved;
+  mbThemeIcon.src = dark ? 'img/light.png' : 'img/moon.png';
+  mbLangIcon.src = dark ? ICONS.dark.translation : ICONS.light.translation;
+  mbSavedIcon.src = dark ? ICONS.dark.saved : ICONS.light.saved;
+
+  updateAvatarImgs();
+}
+
+/* ===== Avatar helpers: ТАК ЖЕ как в Movies ===== */
+let profileData = JSON.parse(localStorage.getItem("profileData")||"{}");
+
+function isDefaultAvatar(src){
+  if (!src) return true;
+  try{
+    const path = (new URL(src, location.href)).pathname;
+    return /\/img\/user-profile(\_white)?\.png$/i.test(path);
+  }catch{
+    return /img\/user-profile(\_white)?\.png$/i.test(src);
+  }
+}
+function updateAvatarImgs(){
+  const photo = (profileData && profileData.avatar && !isDefaultAvatar(profileData.avatar))
+              ? profileData.avatar
+              : "img/user-profile.png";
+  if (topAvatarImg) topAvatarImg.src = photo;
+  if (mbAvatarImg)  mbAvatarImg.src  = photo;
+}
+
+/* ===== Slider builder ===== */
+function initSlider(gridId, prevBtnId, nextBtnId, releases, prefix){
+  const cardGrid = document.getElementById(gridId);
+  let scrollIndex = 0;
+  const cardWidth = 320;
+
+  function render(){
+    cardGrid.innerHTML = '';
+    releases.forEach((r, idx)=>{
+      const wrap = document.createElement('div');
+      wrap.className = 'card-wrapper';
+      wrap.setAttribute('data-anime', `${prefix}${idx+1}`);
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${r.img}" alt="${r.title}">
+        <div class="overlay"></div>
+      `;
+      const title = document.createElement('div');
+      title.className = 'anime-title';
+      title.textContent = r.title || '';
+
+      wrap.appendChild(card);
+      wrap.appendChild(title);
+      cardGrid.appendChild(wrap);
+
+      card.addEventListener('click', ()=>{
+        if (!r.title) return;
+        const page = r.title.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]/g,'');
+        location.href = `${page}.html`;
+      });
+    });
+    applyLang(document.body.dataset.lang || 'en');
+  }
+  render();
+
+  const nextBtn = document.getElementById(nextBtnId);
+  const prevBtn = document.getElementById(prevBtnId);
+  if (nextBtn && prevBtn){
+    nextBtn.addEventListener('click', ()=>{
+      if (scrollIndex < releases.length - 4){
+        scrollIndex++;
+        cardGrid.style.transform = `translateX(-${scrollIndex*cardWidth}px)`;
+      }
+    });
+    prevBtn.addEventListener('click', ()=>{
+      if (scrollIndex > 0){
+        scrollIndex--;
+        cardGrid.style.transform = `translateX(-${scrollIndex*cardWidth}px)`;
+      }
+    });
+  }
+}
+
+/* ===== Search ===== */
+function findLinkByQuery(q){
+  const query = (q||'').toLowerCase().trim();
+  const pool = [...releases1, ...releases2];
+  const found = pool.find(x=> (x.title||'').toLowerCase().includes(query));
+  if (!found) return null;
+  const page = found.title.toLowerCase().replace(/\s+/g,'-').replace(/[^\w\-]/g,'');
+  return `${page}.html`;
+}
+
+document.getElementById('savedBtn')?.addEventListener('click', ()=> location.href='saved.html');
+document.getElementById('mbSaved')?.addEventListener('click', ()=> location.href='saved.html');
+
+searchBtn?.addEventListener('click', ()=>{
+  searchBar.classList.toggle('hidden');
+  if (!searchBar.classList.contains('hidden')) searchInput.focus();
+});
+searchGo?.addEventListener('click', ()=>{
+  const link = findLinkByQuery(searchInput.value);
+  if (link) location.href = link; else alert('No anime found.');
+});
+searchInput?.addEventListener('keydown', (e)=>{
+  if (e.key==='Enter'){
+    const link = findLinkByQuery(searchInput.value);
+    if (link) location.href = link; else alert('No anime found.');
+  }
+});
+mSearchGo?.addEventListener('click', ()=>{
+  const link = findLinkByQuery(mSearchInput.value);
+  if (link) location.href = link; else alert('No anime found.');
+});
+mSearchInput?.addEventListener('keydown', (e)=>{
+  if (e.key==='Enter'){
+    const link = findLinkByQuery(mSearchInput.value);
+    if (link) location.href = link; else alert('No anime found.');
+  }
+});
+
+/* ===== Theme/Lang init & controls ===== */
+const savedTheme = localStorage.getItem('theme') || 'dark';
+applyTheme(savedTheme);
+const savedLang = localStorage.getItem('lang') || 'en';
+applyLang(savedLang);
+langSelect.value = savedLang;
+
+themeToggleBtn?.addEventListener('click', ()=>{
+  const cur = body.classList.contains('theme-dark') ? 'dark' : 'light';
+  applyTheme(cur==='dark' ? 'light' : 'dark');
+});
+langSelect?.addEventListener('change', e=> applyLang(e.target.value));
+mbTheme?.addEventListener('click', ()=>{
+  const cur = body.classList.contains('theme-dark') ? 'dark' : 'light';
+  applyTheme(cur==='dark' ? 'light' : 'dark');
+});
+mbLang?.addEventListener('click', ()=>{
+  const order = ['en','ua','de'];
+  const cur = localStorage.getItem('lang')||'en';
+  const idx = (order.indexOf(cur)+1)%order.length;
+  applyLang(order[idx]);
+  langSelect.value = order[idx];
+});
+
+/* ===== HERO rotation (слева подписи сохранены) ===== */
+const heroVideo = document.getElementById('heroVideo');
+const heroSource = document.getElementById('heroSource');
+const heroTitleEl = document.getElementById('heroTitle');
+const heroSubEl = document.getElementById('heroSub');
+const watchNowBtn = document.getElementById('watchNowBtn');
+
+const heroData = [
+  { src:"vid/idol.mp4", link:"idol.html",
+    title:{en:"Idol", ua:"Айдол", de:"Idol"},
+    sub:{en:"Top picks — popular titles right now", ua:"Популярні тайтли прямо зараз", de:"Top-Auswahl — beliebte Titel gerade jetzt"} },
+  { src:"vid/dandadan.mp4", link:"dandadan.html",
+    title:{en:"Dandadan", ua:"Дандадан", de:"Dandadan"},
+    sub:{en:"Aliens, ghosts and chaos await!", ua:"Прибульці, привиди та хаос чекають!", de:"Aliens, Geister und Chaos warten!"} },
+  { src:"vid/infinity-castle.mp4", link:"kimetsu-no-yaiba.html",
+    title:{en:"Kimetsu no Yaiba", ua:"Клинок знищує демонів", de:"Demon Slayer"},
+    sub:{en:"The quest for revenge and humanity's survival", ua:"Пошуки помсти та виживання людства", de:"Die Suche nach Rache und dem Überleben der Menschheit"} }
+];
+window.heroData = heroData;
+let currentHeroIndex = 0;
+window.currentHeroIndex = currentHeroIndex;
+const intervalMs = 30000;
+
+function setHero(i){
+  const item = heroData[i];
+  if (!item) return;
+  window.currentHeroIndex = i;
+
+  if (heroSource.src !== new URL(item.src, location.href).href){
+    heroSource.src = item.src;
+    heroVideo.load();
+  }
+  heroVideo.play().catch(()=>{});
+  const lang = body.getAttribute('data-lang') || 'en';
+  heroTitleEl.textContent = item.title[lang] || item.title.en;
+  heroSubEl.textContent   = item.sub[lang]   || item.sub.en;
+  watchNowBtn.onclick = (e)=>{ e.preventDefault(); location.href = item.link; };
+  updateWatchText(lang);
+}
+setHero(currentHeroIndex);
+setInterval(()=>{ currentHeroIndex = (currentHeroIndex+1)%heroData.length; setHero(currentHeroIndex); }, intervalMs);
+
+/* ===== Sliders ===== */
+initSlider("cardGrid1","prevBtn1","nextBtn1",releases1,"anime");
+initSlider("cardGrid2","prevBtn2","nextBtn2",releases2,"new");
+
+/* ===== Footer year ===== */
+document.getElementById('copyrightYear').textContent = new Date().getFullYear();
+
+/* ===== Навигация аватара (как в Movies) ===== */
+topAvatarBtn.addEventListener('click', ()=> location.href='profile.html');
+mbProfile.addEventListener('click', ()=> location.href='profile.html');
+
+/* ===== Подтянуть профиль из Firestore и обновить аватар (как в Movies) ===== */
+async function syncProfileDataFromCloud(user){
+  if(!user) return;
+  const ref = doc(db, "users", user.uid);
+  const snap = await getDoc(ref);
+  if (snap.exists()){
+    const data = snap.data()||{};
+    if (data.profileData){
+      profileData = data.profileData;
+      localStorage.setItem("profileData", JSON.stringify(profileData));
+    }
+  }
+}
+onAuthStateChanged(auth, async (user)=>{
+  await syncProfileDataFromCloud(user);
+  updateAvatarImgs();
+});
+
+/* Стартовая отрисовка аватаров из localStorage даже без логина */
+updateAvatarImgs();
+</script>
+</body>
+</html>
